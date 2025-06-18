@@ -15,7 +15,7 @@ class TenantMiddleware:
         # Extract the subdomain from the host
         host = request.META['HTTP_HOST'].split(':')[0]
 
-        subdomain = host.split('.')[0] if len(host.split('.')) > 2 else None
+        subdomain = host.split('.')[0] if len(host.split('.')) > 1 else None
 
         # Handle localhost case (root domain)
         if subdomain in ['localhost', '127.0.0.1','cimssante']:
