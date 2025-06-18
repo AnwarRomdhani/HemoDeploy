@@ -40,8 +40,10 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://localhost:3000$", 
     r"^http://[a-zA-Z0-9-]+\.localhost:8000$",  # center1.localhost:3000 etc.
     r"^http://localhost:8000$",                  # plain localhost
-        r"^https?://[a-zA-Z0-9-]+\.cims-8a3d5cead720\.herokuapp\.com$",  # e.g., center1.cims-8a3d5cead720.herokuapp.com
+     r"^https?://[a-zA-Z0-9-]+\.cims-8a3d5cead720\.herokuapp\.com$",  # e.g., center1.cims-8a3d5cead720.herokuapp.com
     r"^https?://cims-8a3d5cead720\.herokuapp\.com$",  
+    r"^http://[a-zA-Z0-9-]+\.127.0.0.1:8000$",  # center1.localhost:3000 etc.
+    r"^http://127.0.0.1:8000$",  
 ]
 
 CORS_ALLOW_CREDENTIALS = True
