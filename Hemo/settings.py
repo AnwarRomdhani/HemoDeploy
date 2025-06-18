@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-3=_m(g*3_5k1(0sms0s76izba_ikg^e7q1v(*f&2n=mnh6j+n(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['http://localhost:8000/#','localhost','cimssante','.cimssante','.localhost','http://127.0.0.1:8000/','127.0.0.1','.cims-8a3d5cead720.herokuapp.com','cims-8a3d5cead720.herokuapp.com','https://cims-8a3d5cead720.herokuapp.com/']
+ALLOWED_HOSTS = ['http://localhost:8000/#','localhost','cimssante.com','.cimssante.com','.localhost','http://127.0.0.1:8000/','127.0.0.1','.cims-8a3d5cead720.herokuapp.com','cims-8a3d5cead720.herokuapp.com','https://cims-8a3d5cead720.herokuapp.com/']
 
 STATIC_URL = '/static/'  # URL prefix for static files
 STATICFILES_DIRS = [
@@ -38,7 +38,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # Where collectstatic will copy files
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http://[a-zA-Z0-9-]+\.localhost:3000$",  # center1.localhost:3000 etc.
     r"^http://localhost:3000$", 
-        r"^http://[a-zA-Z0-9-]+\.cimssante$",  # center1.localhost:3000 etc.
+        r"^http://[a-zA-Z0-9-]+\.cimssante.com$",  # center1.localhost:3000 etc.
     r"^https://cimssante$", 
     r"^https://[a-zA-Z0-9-]+\.localhost:8000$",  # center1.localhost:3000 etc.
     r"^http://localhost:8000$",                  # plain localhost
