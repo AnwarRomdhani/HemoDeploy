@@ -1,0 +1,134 @@
+/* Reset default margins and ensure full viewport coverage */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main layout container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Home page specific background */
+.app-container.home-page {
+  background-image: url('./Bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Optional: adds subtle parallax effect */
+}
+
+/* Inner wrapper for content */
+.main-wrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  background: transparent; /* Ensure no background color obstructs the image */
+}
+
+/* Home container */
+.home-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 100%;
+  background: transparent; /* Ensure no background color obstructs the image */
+}
+
+/* Subtle overlay for readability */
+
+/* Content area */
+.home-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 60px;
+  background: rgba(255, 255, 255, 0.05); /* Very subtle background for contrast */
+  border-radius: 20px;
+  backdrop-filter: blur(8px); /* Reduced blur for more image clarity */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Headline */
+.home-content h1 {
+  font-size: 3.5rem;
+  color: #1A3C5A; /* Dark navy */
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Stronger shadow for readability */
+}
+
+/* Slogan */
+.home-content .slogan {
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 300;
+  color: #1A3C5A; /* Dark navy */
+  margin-bottom: 40px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for readability */
+  opacity: 0;
+  animation: fadeIn 1s ease-out 0.3s forwards;
+}
+
+/* Logo - Prominent with glow effect */
+.center-logo {
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)); /* Glow effect */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.center-logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7)); /* Enhanced glow on hover */
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-content {
+    padding: 30px;
+  }
+
+  .home-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .home-content .slogan {
+    font-size: 1.3rem;
+  }
+
+  .center-logo {
+    max-width: 150px;
+  }
+}

@@ -1,0 +1,336 @@
+/* Root Variables */
+:root {
+  --primary-color: #0057e7;
+  --secondary-color: #f8fafc;
+  --accent-color: #00cc88;
+  --danger-color: #ff4d4f;
+  --border-radius: 8px;
+  --sidebar-width: 250px;
+  --header-height: 60px;
+  --content-padding: 15px;
+  --gradient-start: #e6f0fa;
+  --gradient-end: #f0f4ff;
+}
+
+/* Page Container */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--content-padding);
+  z-index: 1000;
+}
+
+/* Main Content Layout */
+.main-content {
+  display: flex;
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Side Menu */
+.side-menu {
+  width: var(--sidebar-width);
+  background: #2c3e50;
+  padding: 10px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  color: #ecf0f1;
+}
+
+.side-menu.collapsed {
+  width: 60px;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu li {
+  margin: 0.3rem 0;
+}
+
+.side-menu a {
+  color: #ecf0f1;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.side-menu.collapsed a {
+  justify-content: center;
+  padding: 0.6rem;
+}
+
+.side-menu a:hover {
+  background-color: #34495e;
+  color: #ffffff;
+}
+
+.side-menu a.active {
+  background-color: #3498db;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Content Area */
+.content-area {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center the content */
+  align-items: center; /* Horizontally center the content */
+}
+
+.content-area.collapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+/* Form Section */
+.form-section {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically center within the section */
+  min-height: calc(100vh - var(--header-height));
+  width: 100%;
+  padding: var(--content-padding);
+}
+
+.form-card {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Content Header */
+.content-header {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center; /* Center the header text */
+}
+
+/* Form Container */
+.form-container {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center; /* Center the buttons */
+}
+
+.action-button {
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(90deg, var(--primary-color), #003d99);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #0047b3, #002966);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.action-button.cancel {
+  background: linear-gradient(90deg, #6b7280, #4b5563);
+}
+
+.action-button.cancel:hover {
+  background: linear-gradient(90deg, #4b5563, #374151);
+}
+
+/* Error and Success Messages */
+.error-message {
+  background-color: #fee2e2;
+  color: var(--danger-color);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center; /* Center the message */
+}
+
+.success-message {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  text-align: center; /* Center the message */
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .side-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .form-card {
+    max-width: 90%;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .action-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-header {
+    font-size: 1.5rem;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.3rem;
+    font-size: 0.75rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-area {
+    padding: 0.5rem;
+  }
+
+  .content-header {
+    font-size: 1.25rem;
+  }
+
+  .form-card {
+    padding: 0.75rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 0.25rem;
+    font-size: 0.7rem;
+  }
+
+  .form-group label {
+    font-size: 0.75rem;
+  }
+}

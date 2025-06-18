@@ -1,0 +1,403 @@
+/* Root Variables */
+:root {
+  --primary-color: #0057e7; /* Vibrant blue */
+  --secondary-color: #f8fafc; /* Soft off-white */
+  --accent-color: #00cc88; /* Green for actions */
+  --danger-color: #ff4d4f; /* Red for errors */
+  --border-radius: 8px; /* Consistent border radius */
+  --sidebar-width: 250px; /* Default sidebar width */
+  --header-height: 60px; /* Header height */
+  --content-padding: 15px; /* Reduced padding */
+  --table-bg-hemo: #f0f8ff; /* Light blue for Hemodialysis */
+  --table-bg-disease: #f0fff0; /* Light green for Diseases */
+  --table-bg-complication: #fff0f0; /* Light red for Complications */
+  --table-bg-transplant: #fff0f5; /* Light pink for Transplantations */
+}
+
+/* Page Container */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e6efff 100%);
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--content-padding);
+  z-index: 1000;
+}
+
+/* Main Content Layout */
+.main-content {
+  display: flex;
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Side Menu */
+.side-menu {
+  width: var(--sidebar-width);
+  background: #fff;
+  padding: 10px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+}
+
+.side-menu.collapsed {
+  width: 60px;
+}
+
+/* Content Area */
+.content-area {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: var(--content-padding);
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area.collapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+/* Content Header */
+.content-header {
+  display: flex;
+  justify-content: space-between; /* Ensures title and buttons are separated */
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.content-header h2,
+.content-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-color);
+}
+
+.content-header h3 {
+  font-size: 1.2rem; /* Consistent with previous styling */
+}
+
+/* Medical Activity Layout */
+.medical-activity-layout {
+  display: flex;
+  gap: 15px;
+  height: calc(100vh - var(--header-height) - 30px);
+  overflow: hidden;
+}
+
+/* Patient Details Container */
+.patient-details-container {
+  flex: 0 0 300px; /* légèrement élargi */
+  background: linear-gradient(135deg, #f1f0ff, #d6e4ff); /* fond dégradé doux */
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 100%;
+  font-family: 'Inter', sans-serif;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.patient-details-container:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.patient-details {
+  margin: 0;
+}
+
+.patient-details p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #1a202c;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Activity Tables Container */
+.activity-tables-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+/* Activity Section */
+.activity-section {
+  background: #fff;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Section Titles */
+.section-title {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-color);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end; /* Ensures buttons are always on the right */
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.action-button {
+  padding: 6px 12px;
+  min-width: 150px;
+  max-width: 160px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #fff;
+  background: var(--primary-color);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover {
+  background: #0047b3;
+  transform: translateY(-1px);
+}
+
+.action-button.danger {
+  background: var(--danger-color);
+}
+
+.action-button.danger:hover {
+  background: #e63946;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+}
+
+/* Activity Table */
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Poppins', sans-serif;
+  table-layout: auto; /* Allow columns to adjust based on content */
+}
+
+/* Specific Table Styling with Colors */
+.activity-table.hemo-table {
+  background: var(--table-bg-hemo);
+}
+
+.activity-table.disease-table {
+  background: var(--table-bg-disease);
+}
+
+.activity-table.complication-table {
+  background: var(--table-bg-complication);
+}
+
+.activity-table.transplant-table {
+  background: var(--table-bg-transplant);
+}
+
+.activity-table th {
+  background: linear-gradient(90deg, var(--primary-color), #003d99);
+  color: #fff;
+  font-weight: 600;
+  padding: 4px;
+  text-align: left;
+  font-size: 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.activity-table td {
+  padding: 2px 4px;
+  text-align: left;
+  font-size: 0.65rem;
+  color: #2d3748;
+  /* Removed to prevent cutting off */
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+.activity-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.activity-table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.activity-table tbody tr:hover {
+  background: #f0f7ff;
+}
+
+/* No Data Message */
+.no-data {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  color: #718096;
+  text-align: center;
+  padding: 10px;
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Modal Content */
+.modal-content {
+  background: linear-gradient(135deg, #8797dd 0%, #011325 100%);
+  border-radius: var(--border-radius);
+  width: 90%;
+  max-width: 500px;
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Modal Close Button */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #4a5568;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: var(--danger-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .medical-activity-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .patient-details-container {
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: 250px;
+  }
+
+  .activity-tables-container {
+    width: 100%;
+  }
+
+  .action-button {
+    min-width: 140px;
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .side-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .patient-details-container {
+    max-height: 200px;
+  }
+
+  .activity-table th,
+  .activity-table td {
+    padding: 2px 2px;
+    font-size: 0.6rem;
+  }
+
+  .action-button {
+    min-width: 120px;
+    max-width: 130px;
+  }
+}
+
+@media (max-width: 480px) {
+  .patient-details-container {
+    max-height: 150px;
+    padding: 8px;
+  }
+
+  .patient-details p {
+    font-size: 0.75rem;
+  }
+
+  .activity-table th,
+  .activity-table td {
+    padding: 1px 2px;
+    font-size: 0.55rem;
+  }
+
+  .action-button {
+    min-width: 100px;
+    max-width: 110px;
+    padding: 4px 8px;
+  }
+}

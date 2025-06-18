@@ -1,0 +1,133 @@
+/* Add Center Container */
+.add-center-container {
+  font-family: 'Poppins', Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff3e0, #e0f7fa);
+  padding: 20px;
+}
+
+.add-center-box {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  animation: slideUp 0.5s ease-out;
+}
+
+.add-center-title {
+  font-size: 2rem;
+    background: linear-gradient(90deg, #4a90e2, #50e3c2);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.add-center-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #424242;
+}
+
+input,
+select {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  width: 100%;
+  background: #f5f5f5;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 8px rgba(255, 87, 34, 0.3);
+  outline: none;
+}
+
+.submit-button {
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+   background: linear-gradient(90deg, #4a90e2, #50e3c2);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #ff7043, #ffab91);
+  transform: translateY(-2px);
+}
+
+.submit-button:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  text-align: center;
+  background: #ffebee;
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+.success-message {
+  color: #2e7d32;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  text-align: center;
+  background: #e8f5e9;
+  padding: 0.75rem;
+  border-radius: 8px;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .add-center-box {
+    padding: 1.5rem;
+  }
+
+  .add-center-title {
+    font-size: 1.5rem;
+  }
+
+  input,
+  select {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+}

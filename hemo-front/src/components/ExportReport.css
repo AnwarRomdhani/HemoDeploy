@@ -1,0 +1,37 @@
+.export-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.export-report-container h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.export-report-container p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.export-report-container .error {
+  color: #d32f2f;
+}
+
+.export-report-container button {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.export-report-container button:hover {
+  background-color: #1565c0;
+}

@@ -1,0 +1,225 @@
+/* Root Variables */
+:root {
+  --primary-color: #0057e7;
+  --secondary-color: #f8fafc;
+  --accent-color: #00cc88;
+  --danger-color: #ff4d4f;
+  --border-radius: 8px;
+  --sidebar-width: 250px;
+  --header-height: 60px;
+  --content-padding: 15px;
+  --gradient-start: #e6f0fa;
+  --gradient-end: #f0f4ff;
+}
+
+/* Page Container */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e6efff 100%);
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--content-padding);
+  z-index: 1000;
+}
+
+/* Main Content Layout */
+.main-content {
+  display: flex;
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Side Menu */
+.side-menu {
+  width: var(--sidebar-width);
+  background: #fff;
+  padding: 10px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: var(--header-height);
+  bottom: 0;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+}
+
+.side-menu.collapsed {
+  width: 60px;
+}
+
+/* Content Area */
+.content-area {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: var(--content-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+}
+
+.content-area.collapsed {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+/* Center Details Container */
+.center-details-container {
+  max-width: 800px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Center Info Card */
+.center-info-card {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.center-info-card h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #0057e7, #00cc88);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+}
+
+/* Center Details */
+.center-info-card p {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.label-text {
+  font-weight: 600;
+  color: #2d3748;
+  min-width: 150px; /* Consistent label width */
+  background: linear-gradient(90deg, #333, #555);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.value-text {
+  color: #4a5568;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(90deg, #00cc88, #0057e7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Error Styling */
+.error {
+  color: var(--danger-color);
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+  background-color: #fee2e2;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .side-menu {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .center-info-card {
+    padding: 1.5rem;
+  }
+
+  .center-info-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .center-info-card p {
+    font-size: 0.9rem;
+  }
+
+  .label-text {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .center-details-container {
+    padding: 15px;
+  }
+
+  .center-info-card {
+    padding: 1rem;
+  }
+
+  .center-info-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .center-info-card p {
+    font-size: 0.85rem;
+  }
+
+  .label-text {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-area {
+    padding: 10px;
+  }
+
+  .center-info-card h2 {
+    font-size: 1rem;
+  }
+
+  .center-info-card p {
+    font-size: 0.8rem;
+  }
+
+  .label-text {
+    min-width: 80px;
+  }
+}

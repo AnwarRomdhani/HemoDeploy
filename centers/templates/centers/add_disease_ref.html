@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Disease Reference</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .errorlist {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            list-style: none;
+            padding: 0;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .auth-links {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-links">
+            {% if user.is_authenticated %}
+                <p>Welcome, {{ user.username }} | <a href="{% url 'logout' %}" class="btn">Logout</a></p>
+            {% else %}
+                <p><a href="{% url 'login' %}" class="btn">Login</a></p>
+            {% endif %}
+        </div>
+        <h1>Add New Disease Reference</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.label_disease.id_for_label }}">Disease Name</label>
+                {{ form.label_disease }}
+                {% if form.label_disease.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.label_disease.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.type_of_transmission.id_for_label }}">Type of Transmission</label>
+                {{ form.type_of_transmission }}
+                {% if form.type_of_transmission.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.type_of_transmission.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            
+            <button type="submit">Add Disease</button>
+        </form>
+    </div>
+</body>
+</html>

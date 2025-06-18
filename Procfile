@@ -1,0 +1,1 @@
+web: gunicorn Hemo.wsgi --log-file -
