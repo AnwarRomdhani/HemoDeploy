@@ -16,7 +16,7 @@ class TenantMiddleware:
         host = request.META['HTTP_HOST'].split(':')[0]
 
         # Define root domains (no subdomain logic applied)
-        root_domains = ['localhost', '127.0.0.1', 'cims-8a3d5cead720.herokuapp.com']
+        root_domains = ['localhost', '127.0.0.1', 'https://cims-8a3d5cead720.herokuapp.com']
         if host in root_domains:
             request.tenant = None
             return self.get_response(request)
