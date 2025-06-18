@@ -191,6 +191,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        # Optional file handler, mainly for local dev
         'file': {
             'class': 'logging.FileHandler',
             'filename': 'debug.log',
@@ -198,6 +199,7 @@ LOGGING = {
         },
     },
     'loggers': {
+        # Your app-specific loggers
         'centers.permissions': {
             'handlers': ['console', 'file'],
             'level': 'DEBUG',
@@ -208,8 +210,19 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        # Catch all other logs from Django and 3rd party
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
     },
 }
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'no-reply@hemo.localhost'
