@@ -9,7 +9,7 @@ export const getTenantConfig = () => {
   let isRoot = false;
 
   // Define your root domain here
-  const ROOT_DOMAIN = 'cims-8a3d5cead720.herokuapp.com';
+  const ROOT_DOMAIN = 'cimssante.com';
 
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     // Root domain on local dev

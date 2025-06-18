@@ -69,7 +69,7 @@ export const loginTenant = async (apiBaseUrl, username, password) => {
 export const loginSuperAdmin = async (username, password) => {
   try {
     console.log('Sending superadmin login request:', { username });
-    const response = await api.post('https://cims-8a3d5cead720.herokuapp.com/api/superadmin-login/', { username, password });
+    const response = await api.post('https://cimssante.com/api/superadmin-login/', { username, password });
     console.log('Superadmin login response:', response.data);
     return response.data;
   } catch (error) {

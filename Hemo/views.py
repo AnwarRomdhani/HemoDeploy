@@ -19,9 +19,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
 
 
 logger = logging.getLogger(__name__)
+
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10  # Number of items per page
+    page_size_query_param = 'page_size'  # Allow client to override, e.g. ?page_size=20
+    max_page_size = 100
 
 def is_superadmin(user):
     return user.is_authenticated and user.is_superuser
@@ -268,6 +276,8 @@ class CheckSubdomainAPIView(APIView):
             return Response({"error": f"Subdomain {subdomain} does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
 class CenterListAPIView(APIView):
+    pagination_class = StandardResultsSetPagination()
+
     def get(self, request):
         try:
             label_filter = request.query_params.get('label', None)
@@ -283,9 +293,17 @@ class CenterListAPIView(APIView):
             if delegation_id:
                 centers = centers.filter(delegation__id=delegation_id)
 
-            # Manually construct response data
+            # Paginate queryset
+            paginator = self.pagination_class
+            page = paginator.paginate_queryset(centers, request, view=self)
+            if page is not None:
+                centers_to_serialize = page
+            else:
+                centers_to_serialize = centers
+
+            # Build response data for paginated results only
             centers_data = []
-            for center in centers:
+            for center in centers_to_serialize:
                 center_data = {
                     'id': center.id,
                     'sub_domain': center.sub_domain,
@@ -299,24 +317,26 @@ class CenterListAPIView(APIView):
                     'center_code': center.center_code,
                     'governorate': {
                         'id': center.governorate.id,
-                        'label': center.governorate.name,  # Use name instead of label
+                        'label': center.governorate.name,
                         'code': center.governorate.code
                     } if center.governorate else None,
                     'delegation': {
                         'id': center.delegation.id,
-                        'label': center.delegation.name,  # Use name instead of label
+                        'label': center.delegation.name,
                         'code': center.delegation.code,
                         'governorate': center.delegation.governorate.id
                     } if center.delegation else None
                 }
                 centers_data.append(center_data)
 
-            logger.info(f"Retrieved {len(centers)} centers with filters: label={label_filter}, governorate_id={governorate_id}, delegation_id={delegation_id}")
-            return Response({'success': True, 'data': centers_data}, status=status.HTTP_200_OK)
+            logger.info(f"Retrieved {len(centers_to_serialize)} centers (page) with filters: label={label_filter}, governorate_id={governorate_id}, delegation_id={delegation_id}")
+            
+            return paginator.get_paginated_response({'success': True, 'data': centers_data})
 
         except Exception as e:
             logger.error(f"Error in CenterListAPIView: {str(e)}")
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class GovernorateListAPIView(APIView):
     def get(self, request):

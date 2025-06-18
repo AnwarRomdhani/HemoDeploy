@@ -12,7 +12,12 @@ const SuperAdminDashboard = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [totalPages, setTotalPages] = useState(1);
+  const [filters, setFilters] = useState({
+    label: '',
+    governorate_id: '',
+    delegation_id: '',
+  });
 
   useEffect(() => {
     const isSuperAdmin = localStorage.getItem('isSuperAdmin') === 'true';
@@ -29,13 +34,22 @@ const SuperAdminDashboard = () => {
     const fetchCenters = async () => {
       setLoading(true);
       try {
-        console.log('Fetching centers for dashboard');
-        const response = await getCenters(rootApiBaseUrl);
+        console.log('Fetching centers with filters:', { ...filters, page: currentPage });
+        // Construct query params for API
+        const params = {
+          page: currentPage,
+          page_size: 10, // Match API's default page_size
+          ...(filters.label && { label: filters.label }),
+          ...(filters.governorate_id && { governorate_id: filters.governorate_id }),
+          ...(filters.delegation_id && { delegation_id: filters.delegation_id }),
+        };
+        const response = await getCenters(rootApiBaseUrl, params);
         if (response.success) {
-          setCenters(response.data.data || []);
+          setCenters(response.data.results || []); // API returns 'results' for paginated data
+          setTotalPages(Math.ceil(response.data.count / 10)); // Calculate total pages from API count
           console.log('Centers fetched:', response.data);
         } else {
-          setError(response.error);
+          setError(response.error || 'Failed to fetch centers');
           console.error('Centers fetch error:', response.error);
         }
       } catch (err) {
@@ -46,7 +60,7 @@ const SuperAdminDashboard = () => {
       }
     };
     fetchCenters();
-  }, [navigate, rootApiBaseUrl]);
+  }, [navigate, rootApiBaseUrl, currentPage, filters]);
 
   const handleAddCenter = () => {
     console.log('Navigating to add center');
@@ -62,11 +76,11 @@ const SuperAdminDashboard = () => {
     navigate('/superadmin/login', { replace: true });
   };
 
-  // Pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCenters = centers.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(centers.length / itemsPerPage);
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+    setCurrentPage(1); // Reset to first page on filter change
+  };
 
   // Dynamic pagination range (show 3 pages, current page in the middle when possible)
   const getPaginationRange = () => {
@@ -107,6 +121,32 @@ const SuperAdminDashboard = () => {
           Add New Center
         </button>
       </div>
+      <div className="filters-section">
+        <input
+          type="text"
+          name="label"
+          placeholder="Filter by label"
+          value={filters.label}
+          onChange={handleFilterChange}
+          className="filter-input"
+        />
+        <input
+          type="text"
+          name="governorate_id"
+          placeholder="Filter by governorate ID"
+          value={filters.governorate_id}
+          onChange={handleFilterChange}
+          className="filter-input"
+        />
+        <input
+          type="text"
+          name="delegation_id"
+          placeholder="Filter by delegation ID"
+          value={filters.delegation_id}
+          onChange={handleFilterChange}
+          className="filter-input"
+        />
+      </div>
       <main className="main-content">
         <div className="centers-section">
           <h3 className="subsection-title">Centers</h3>
@@ -127,11 +167,11 @@ const SuperAdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentCenters.map((center) => (
+                    {centers.map((center) => (
                       <tr key={center.id}>
                         <td>{center.sub_domain}</td>
                         <td>{center.label}</td>
-                        <td>{center.governorate_label || 'N/A'}</td>
+                        <td>{center.governorate?.label || 'N/A'}</td>
                         <td>{center.type_center}</td>
                       </tr>
                     ))}
