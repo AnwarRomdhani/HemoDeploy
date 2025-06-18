@@ -16,14 +16,14 @@ class TenantMiddleware:
         host = request.META['HTTP_HOST'].split(':')[0]
 
         # Define root domains (no subdomain logic applied)
-        root_domains = ['localhost', '127.0.0.1', 'https://cims-8a3d5cead720.herokuapp.com']
+        root_domains = ['localhost', '127.0.0.1', 'https://cims-8a3d5cead720.herokuapp.com','cims-8a3d5cead720.herokuapp.com']
         if host in root_domains:
             request.tenant = None
             return self.get_response(request)
 
         # Split host into parts to extract subdomain
         parts = host.split('.')
-        subdomain = parts[0] if len(parts) > 4 else None
+        subdomain = parts[0] if len(parts) > 3 else None
 
         if subdomain:
             try:
