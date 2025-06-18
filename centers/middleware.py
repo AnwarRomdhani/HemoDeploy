@@ -23,7 +23,7 @@ class TenantMiddleware:
 
         # Split host into parts to extract subdomain
         parts = host.split('.')
-        subdomain = parts[0] if len(parts) > 2 else None
+        subdomain = parts[0] if len(parts) > 3 else None
 
         if subdomain:
             try:
