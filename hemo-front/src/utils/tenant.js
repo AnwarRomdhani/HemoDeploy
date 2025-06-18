@@ -52,8 +52,8 @@ export const getTenantConfig = () => {
 
 
 
-
-/*export const getTenantConfig = () => {
+/*
+export const getTenantConfig = () => {
   let hostname = window.location.hostname; // e.g., localhost, cilo.localhost
   console.log('Raw hostname:', hostname);
   hostname = hostname.split(':')[0]; // Remove port if present

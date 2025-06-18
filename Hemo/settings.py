@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3=_m(g*3_5k1(0sms0s76izba_ikg^e7q1v(*f&2n=mnh6j+n('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['http://localhost:8000/#','localhost','http://127.0.0.1:8000/','127.0.0.1','cims-8a3d5cead720.herokuapp.com','https://cims-8a3d5cead720.herokuapp.com/']
+DEBUG = True
+ALLOWED_HOSTS = ['http://localhost:8000/#','localhost','.localhost','http://127.0.0.1:8000/','127.0.0.1','.cims-8a3d5cead720.herokuapp.com','cims-8a3d5cead720.herokuapp.com','https://cims-8a3d5cead720.herokuapp.com/']
 
 STATIC_URL = '/static/'  # URL prefix for static files
 STATICFILES_DIRS = [
