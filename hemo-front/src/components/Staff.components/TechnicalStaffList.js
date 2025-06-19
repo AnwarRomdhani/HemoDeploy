@@ -24,8 +24,8 @@ const TechnicalStaffList = () => {
     }
     const result = await getTechnicalStaff(apiBaseUrl, token);
     console.log('getTechnicalStaff result:', result);
-    if (!result.success) {
-      setErrors({ general: result.error || 'Failed to fetch technical staff.' });
+    if (!result?.success) {
+      setErrors({ general: result?.error || 'Failed to fetch technical staff.' });
       setStaffList([]);
     } else {
       const mappedData = result.data.map(staff => ({
@@ -56,13 +56,30 @@ const TechnicalStaffList = () => {
       return;
     }
 
-    const result = await deleteTechnicalStaff(apiBaseUrl, token, id);
-    if (result.success) {
-      setSuccess('Technical staff deleted successfully!');
-      fetchData();
-      setTimeout(() => setSuccess(null), 2000);
-    } else {
-      setErrors({ general: result.error || 'Failed to delete technical staff.' });
+    try {
+      console.log('Calling deleteTechnicalStaff with:', {
+        apiBaseUrl,
+        id,
+        token: token.substring(0, 10) + '...'
+      });
+      const result = await deleteTechnicalStaff(apiBaseUrl, token, id);
+      console.log('deleteTechnicalStaff result:', result);
+
+      if (result && typeof result === 'object' && result.success) {
+        setSuccess('Technical staff deleted successfully!');
+        fetchData();
+        setTimeout(() => setSuccess(null), 2000);
+        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: result }]);
+      } else {
+        const errorMsg = result?.error || 'Failed to delete technical staff: Invalid response format.';
+        setErrors({ general: errorMsg });
+        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
+      }
+    } catch (error) {
+      const errorMsg = error.message || 'Failed to delete technical staff.';
+      setErrors({ general: errorMsg });
+      setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
+      console.error('Error in handleDelete:', error);
     }
   };
 
@@ -76,21 +93,39 @@ const TechnicalStaffList = () => {
     }
 
     const payload = { user_id: userId, admin_accord: true };
-    setDebugInfo((prev) => [...prev, { request: payload }]);
+    setDebugInfo((prev) => [...prev, { request: payload, response: null }]);
 
-    const result = await updateUserProfile(apiBaseUrl, userId, true);
-    setDebugInfo((prev) =>
-      prev.map((item, index) =>
-        index === prev.length - 1 ? { ...item, response: result } : item
-      )
-    );
+    try {
+      const result = await updateUserProfile(apiBaseUrl, userId);
+      console.log('updateUserProfile result:', result);
+      setDebugInfo((prev) =>
+        prev.map((item, index) =>
+          index === prev.length - 1 ? { ...item, response: result } : item
+        )
+      );
 
-    if (result.success) {
-      setSuccess(`Admin accord granted to ${nom} ${prenom}!`);
-      fetchData();
-      setTimeout(() => setSuccess(null), 2000);
-    } else {
-      setErrors({ general: result.error || 'Failed to grant admin accord.' });
+      if (result && typeof result === 'object' && result.success) {
+        setSuccess(`Admin accord granted to ${nom} ${prenom}!`);
+        fetchData();
+        setTimeout(() => setSuccess(null), 2000);
+      } else {
+        const errorMsg = result?.error || 'Failed to grant admin accord: Invalid response format.';
+        setErrors({ general: errorMsg });
+        setDebugInfo((prev) =>
+          prev.map((item, index) =>
+            index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
+          )
+        );
+      }
+    } catch (error) {
+      const errorMsg = error.message || 'Failed to grant admin accord.';
+      setErrors({ general: errorMsg });
+      setDebugInfo((prev) =>
+        prev.map((item, index) =>
+          index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
+        )
+      );
+      console.error('Error in handleGrantAccord:', error);
     }
   };
 
@@ -175,7 +210,7 @@ const TechnicalStaffList = () => {
               </div>
             )}
             <div className="debug-section">
-              <h3>Debug: Give Accord Requests</h3>
+              <h3>Debug: API Requests</h3>
               {debugInfo.length === 0 ? (
                 <p className="no-data">No requests made.</p>
               ) : (
