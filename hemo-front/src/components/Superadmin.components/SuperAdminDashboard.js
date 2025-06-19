@@ -167,7 +167,7 @@ const SuperAdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {centers.map((center) => (
+                    {centers && centers.map((center) => (
                       <tr key={center.id}>
                         <td>{center.sub_domain}</td>
                         <td>{center.label}</td>
