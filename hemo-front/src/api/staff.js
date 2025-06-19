@@ -179,18 +179,44 @@ export const updateTechnicalStaff = async (apiBaseUrl, token, id, data) => {
   }
 };
 
-
 export const deleteTechnicalStaff = async (apiBaseUrl, token, id) => {
   try {
-    return await handleFetch(`${apiBaseUrl}delete-technical-staff/${id}/`, {
+    const url = `${apiBaseUrl}delete-technical-staff/${id}/`;
+    console.log('DELETE Request URL:', url);
+    console.log('Request Headers:', {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
+
+    console.log('Response Status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('Response Data:', data);
+    } catch (e) {
+      console.error('JSON Parsing Error:', e);
+      return { success: false, error: 'Invalid JSON response from server.' };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: data.error || `HTTP error! Status: ${response.status}` };
+    }
+
+    return data; // Expected: { success: true, message: ... }
   } catch (error) {
-    return { error: error.message };
+    console.error('deleteTechnicalStaff Error:', error);
+    return { success: false, error: error.message || 'Failed to delete technical staff.' };
   }
 };
 
@@ -218,18 +244,44 @@ export const updateWorkerStaff = async (apiBaseUrl, token, id, data) => {
   }
 };
 
-
 export const deleteWorkerStaff = async (apiBaseUrl, token, id) => {
   try {
-    return await handleFetch(`${apiBaseUrl}delete-worker-staff/${id}/`, {
+    const url = `${apiBaseUrl}delete-worker-staff/${id}/`;
+    console.log('DELETE Request URL:', url);
+    console.log('Request Headers:', {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
+
+    console.log('Response Status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('Response Data:', data);
+    } catch (e) {
+      console.error('JSON Parsing Error:', e);
+      return { success: false, error: 'Invalid JSON response from server.' };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: data.error || `HTTP error! Status: ${response.status}` };
+    }
+
+    return data; // Expected: { success: true, message: ... }
   } catch (error) {
-    return { error: error.message };
+    console.error('deleteWorkerStaff Error:', error);
+    return { success: false, error: error.message || 'Failed to delete worker staff.' };
   }
 };
 
@@ -257,7 +309,6 @@ export const updateAdministrativeStaff = async (apiBaseUrl, token, id, data) => 
   }
 };
 
-
 export const deleteAdministrativeStaff = async (apiBaseUrl, token, id) => {
   try {
     const url = `${apiBaseUrl}delete-administrative-staff/${id}/`;
@@ -271,7 +322,7 @@ export const deleteAdministrativeStaff = async (apiBaseUrl, token, id) => {
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
@@ -325,15 +376,42 @@ export const updateParamedicalStaff = async (apiBaseUrl, token, id, data) => {
 
 export const deleteParamedicalStaff = async (apiBaseUrl, token, id) => {
   try {
-    return await handleFetch(`${apiBaseUrl}delete-paramedical-staff/${id}/`, {
+    const url = `${apiBaseUrl}delete-paramedical-staff/${id}/`;
+    console.log('DELETE Request URL:', url);
+    console.log('Request Headers:', {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
+
+    console.log('Response Status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('Response Data:', data);
+    } catch (e) {
+      console.error('JSON Parsing Error:', e);
+      return { success: false, error: 'Invalid JSON response from server.' };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: data.error || `HTTP error! Status: ${response.status}` };
+    }
+
+    return data; // Expected: { success: true, message: ... }
   } catch (error) {
-    return { error: error.message };
+    console.error('deleteParamedicalStaff Error:', error);
+    return { success: false, error: error.message || 'Failed to delete paramedical staff.' };
   }
 };
 
@@ -363,15 +441,42 @@ export const updateMedicalStaff = async (apiBaseUrl, token, id, data) => {
 
 export const deleteMedicalStaff = async (apiBaseUrl, token, id) => {
   try {
-    return await handleFetch(`${apiBaseUrl}delete-medical-staff/${id}/`, {
+    const url = `${apiBaseUrl}delete-medical-staff/${id}/`;
+    console.log('DELETE Request URL:', url);
+    console.log('Request Headers:', {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
+
+    console.log('Response Status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('Response Data:', data);
+    } catch (e) {
+      console.error('JSON Parsing Error:', e);
+      return { success: false, error: 'Invalid JSON response from server.' };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: data.error || `HTTP error! Status: ${response.status}` };
+    }
+
+    return data; // Expected: { success: true, message: ... }
   } catch (error) {
-    return { error: error.message };
+    console.error('deleteMedicalStaff Error:', error);
+    return { success: false, error: error.message || 'Failed to delete medical staff.' };
   }
 };
 
@@ -390,10 +495,10 @@ export const updateUserProfile = async (apiBaseUrl, userId) => {
   const payload = { user_id: userId };
 
   try {
-    console.log('Sending request to grant admin accord:', { apiBaseUrl, payload ,token});
+    console.log('Sending request to grant admin accord:', { apiBaseUrl, payload, token });
     const response = await api.post(`${apiBaseUrl}grant-accord/`, payload, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
