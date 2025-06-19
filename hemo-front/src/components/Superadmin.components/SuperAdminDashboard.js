@@ -35,18 +35,17 @@ const SuperAdminDashboard = () => {
       setLoading(true);
       try {
         console.log('Fetching centers with filters:', { ...filters, page: currentPage });
-        // Construct query params for API
         const params = {
           page: currentPage,
-          page_size: 10, // Match API's default page_size
+          page_size: 10,
           ...(filters.label && { label: filters.label }),
           ...(filters.governorate_id && { governorate_id: filters.governorate_id }),
           ...(filters.delegation_id && { delegation_id: filters.delegation_id }),
         };
         const response = await getCenters(rootApiBaseUrl, params);
         if (response.success) {
-          setCenters(response.data.results || []); // API returns 'results' for paginated data
-          setTotalPages(Math.ceil(response.data.count / 10)); // Calculate total pages from API count
+          setCenters(response.data.results || []);
+          setTotalPages(Math.ceil(response.data.count / 10));
           console.log('Centers fetched:', response.data);
         } else {
           setError(response.error || 'Failed to fetch centers');
@@ -79,10 +78,9 @@ const SuperAdminDashboard = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   };
 
-  // Dynamic pagination range (show 3 pages, current page in the middle when possible)
   const getPaginationRange = () => {
     const range = [];
     let startPage = Math.max(1, currentPage - 1);
@@ -151,7 +149,7 @@ const SuperAdminDashboard = () => {
         <div className="centers-section">
           <h3 className="subsection-title">Centers</h3>
           {loading ? (
-            <div className="loading">Loading centers...</div>
+            <div className="loading-text">Loading centers...</div>
           ) : centers.length === 0 ? (
             <div className="no-centers">No centers found.</div>
           ) : (
@@ -167,7 +165,7 @@ const SuperAdminDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {centers && centers.map((center) => (
+                    {centers.map((center) => (
                       <tr key={center.id}>
                         <td>{center.sub_domain}</td>
                         <td>{center.label}</td>
