@@ -57,7 +57,11 @@ const AdministrativeStaffList = () => {
     }
 
     try {
-      console.log('Calling deleteAdministrativeStaff with:', { apiBaseUrl, id, token });
+      console.log('Calling deleteAdministrativeStaff with:', {
+        apiBaseUrl,
+        id,
+        token: token.substring(0, 10) + '...', // Truncate token for safety
+      });
       const result = await deleteAdministrativeStaff(apiBaseUrl, token, id);
       console.log('deleteAdministrativeStaff result:', result);
 
@@ -72,7 +76,7 @@ const AdministrativeStaffList = () => {
         setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
       }
     } catch (error) {
-      const errorMsg = error?.response?.data?.error || error.message || 'Failed to delete administrative staff.';
+      const errorMsg = error.message || 'Failed to delete administrative staff.';
       setErrors({ general: errorMsg });
       setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
       console.error('Error in handleDelete:', error);
@@ -114,7 +118,7 @@ const AdministrativeStaffList = () => {
         );
       }
     } catch (error) {
-      const errorMsg = error?.response?.data?.error || error.message || 'Failed to grant admin accord.';
+      const errorMsg = error.message || 'Failed to grant admin accord.';
       setErrors({ general: errorMsg });
       setDebugInfo((prev) =>
         prev.map((item, index) =>

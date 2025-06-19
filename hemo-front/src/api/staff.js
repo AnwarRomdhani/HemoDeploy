@@ -259,16 +259,43 @@ export const updateAdministrativeStaff = async (apiBaseUrl, token, id, data) => 
 
 
 export const deleteAdministrativeStaff = async (apiBaseUrl, token, id) => {
-  try {console.log(`${apiBaseUrl}delete-administrative-staff/${id}/`)
-    return await handleFetch(`${apiBaseUrl}delete-administrative-staff/${id}/`, {
+  try {
+    const url = `${apiBaseUrl}delete-administrative-staff/${id}/`;
+    console.log('DELETE Request URL:', url);
+    console.log('Request Headers:', {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
+
+    console.log('Response Status:', response.status);
+
+    let data;
+    try {
+      data = await response.json();
+      console.log('Response Data:', data);
+    } catch (e) {
+      console.error('JSON Parsing Error:', e);
+      return { success: false, error: 'Invalid JSON response from server.' };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: data.error || `HTTP error! Status: ${response.status}` };
+    }
+
+    return data; // Expected: { success: true, message: ... }
   } catch (error) {
-    return { error: error.message };
+    console.error('deleteAdministrativeStaff Error:', error);
+    return { success: false, error: error.message || 'Failed to delete administrative staff.' };
   }
 };
 
