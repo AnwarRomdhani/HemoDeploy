@@ -7,24 +7,21 @@ class TenantMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Skip if it's the admin interface
         if request.path.startswith('/admin/'):
             return self.get_response(request)
 
         host = request.META['HTTP_HOST'].split(':')[0]
-        subdomain = host.split('.')[0] if len(host.split('.')) > 1 else None
+        parts = host.split('.')
 
-        # Treat known root domains as public / superadmin
-        if subdomain in ['localhost', '127.0.0.1', 'cimssante', 'www']:
+        subdomain = parts[0] if len(parts) > 2 else None
+
+        if subdomain in ['localhost', '127.0.0.1', 'cimssante', 'www'] or subdomain is None:
             request.tenant = None
             return self.get_response(request)
 
-        if subdomain:
-            try:
-                request.tenant = Center.objects.get(sub_domain=subdomain)
-            except ObjectDoesNotExist:
-                raise Http404("Center not found for this subdomain")
-        else:
-            request.tenant = None
+        try:
+            request.tenant = Center.objects.get(sub_domain=subdomain)
+        except ObjectDoesNotExist:
+            raise Http404("Center not found for this subdomain")
 
         return self.get_response(request)
