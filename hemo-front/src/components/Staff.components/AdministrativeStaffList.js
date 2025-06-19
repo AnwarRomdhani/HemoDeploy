@@ -57,7 +57,7 @@ const AdministrativeStaffList = () => {
     }
 
     try {
-      console.log('Calling deleteAdministrativeStaff with:', { apiBaseUrl, id });
+      console.log('Calling deleteAdministrativeStaff with:', { apiBaseUrl, id, token });
       const result = await deleteAdministrativeStaff(apiBaseUrl, token, id);
       console.log('deleteAdministrativeStaff result:', result);
 
@@ -65,6 +65,7 @@ const AdministrativeStaffList = () => {
         setSuccess('Administrative staff deleted successfully!');
         fetchData();
         setTimeout(() => setSuccess(null), 2000);
+        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: result }]);
       } else {
         const errorMsg = result?.error || 'Failed to delete administrative staff: Invalid response format.';
         setErrors({ general: errorMsg });
