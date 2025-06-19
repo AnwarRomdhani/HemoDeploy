@@ -44,9 +44,10 @@ const SuperAdminDashboard = () => {
         };
         const response = await getCenters(rootApiBaseUrl, params);
         if (response.success) {
-          setCenters(response.data.results || []);
-          setTotalPages(Math.ceil(response.data.count / 10));
-          console.log('Centers successfully fetched:', response.data.results);
+          // Your API returns an array in response.data
+          setCenters(response.data || []);
+          setTotalPages(1); // If pagination not provided by API
+          console.log('Centers successfully fetched:', response.data);
         } else {
           setError(response.error || 'Failed to fetch centers');
           console.error('Centers fetch error:', response.error);
@@ -80,7 +81,7 @@ const SuperAdminDashboard = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   };
 
   const getPaginationRange = () => {
