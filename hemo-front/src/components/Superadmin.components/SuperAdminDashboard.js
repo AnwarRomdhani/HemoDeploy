@@ -42,28 +42,23 @@ const SuperAdminDashboard = () => {
         const response = await getCenters(rootApiBaseUrl, params);
         console.log('Centers API response:', response);
 
-        if (response.success || response.data?.success) {
-          const data = response.data;
-
-          // Handle various potential backend formats
-          if (Array.isArray(data)) {
-            setCenters(data);
-          } else if (Array.isArray(data?.results?.data)) {
-            setCenters(data.results.data);
-            setTotalPages(Math.ceil(data.count / 10));
-          } else if (Array.isArray(data?.data)) {
-            setCenters(data.data);
-            setTotalPages(1);
-          } else {
-            console.error('Unexpected format for centers response:', data);
-            setCenters([]);
-          }
+        if (response && response.results?.success && Array.isArray(response.results.data)) {
+          setCenters(response.results.data);
+          setTotalPages(Math.ceil(response.count / params.page_size));
+        } else if (response.success && Array.isArray(response.data)) {
+          setCenters(response.data);
+          setTotalPages(1);
         } else {
-          setError(response.error || 'Failed to fetch centers');
+          console.error('Unexpected format for centers response:', response);
+          setError('Failed to load centers. Unexpected data format.');
+          setCenters([]);
+          setTotalPages(1);
         }
       } catch (err) {
         setError('Failed to fetch centers.');
-        console.error(err);
+        console.error('Error fetching centers:', err);
+        setCenters([]);
+        setTotalPages(1);
       } finally {
         setLoading(false);
       }
@@ -90,15 +85,24 @@ const SuperAdminDashboard = () => {
 
   const getPaginationRange = () => {
     const range = [];
-    let startPage = Math.max(1, currentPage - 1);
-    let endPage = Math.min(totalPages, currentPage + 1);
-    if (currentPage === 1) endPage = Math.min(totalPages, 3);
-    else if (currentPage === totalPages) startPage = Math.max(1, totalPages - 2);
-    for (let i = startPage; i <= endPage; i++) range.push(i);
+    const maxButtons = 3;
+    let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+    if (endPage - startPage + 1 < maxButtons && startPage > 1) {
+      startPage = Math.max(1, endPage - maxButtons + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      range.push(i);
+    }
     return range;
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    console.log('Paginating to page:', pageNumber);
+    setCurrentPage(pageNumber);
+  };
 
   if (error) return <div className="error-message">{error}</div>;
 
@@ -176,6 +180,13 @@ const SuperAdminDashboard = () => {
                 </table>
               </div>
               <div className="pagination">
+                <button
+                  className="pagination-btn"
+                  onClick={() => paginate(1)}
+                  disabled={currentPage === 1}
+                >
+                  First
+                </button>
                 {getPaginationRange().map((number) => (
                   <button
                     key={number}
@@ -185,6 +196,13 @@ const SuperAdminDashboard = () => {
                     {number}
                   </button>
                 ))}
+                <button
+                  className="pagination-btn"
+                  onClick={() => paginate(totalPages)}
+                  disabled={currentPage === totalPages}
+                >
+                  Last
+                </button>
               </div>
             </>
           )}
