@@ -5,7 +5,6 @@ import { getAdministrativeStaff, deleteAdministrativeStaff, updateUserProfile } 
 import SideMenu from '../SideMenu';
 import Header from '../Header';
 import './Staff.css';
-import api from '../../api/api';
 
 const AdministrativeStaffList = () => {
   const { apiBaseUrl } = useContext(TenantContext);
@@ -25,8 +24,8 @@ const AdministrativeStaffList = () => {
     }
     const result = await getAdministrativeStaff(apiBaseUrl, token);
     console.log('getAdministrativeStaff result:', result);
-    if (!result.success) {
-      setErrors({ general: result.error || 'Failed to fetch administrative staff.' });
+    if (!result?.success) {
+      setErrors({ general: result?.error || 'Failed to fetch administrative staff.' });
       setStaffList([]);
     } else {
       const mappedData = result.data.map(staff => ({
@@ -57,14 +56,25 @@ const AdministrativeStaffList = () => {
       return;
     }
 
-    const result = await deleteAdministrativeStaff(apiBaseUrl, token, id);
-    if (result.success) {
-      setSuccess('Administrative staff deleted successfully!');
-      fetchData();
-      console.log(apiBaseUrl);
-      setTimeout(() => setSuccess(null), 2000);
-    } else {
-      setErrors({ general: result.error || 'Failed to delete administrative staff.' });
+    try {
+      console.log('Calling deleteAdministrativeStaff with:', { apiBaseUrl, id });
+      const result = await deleteAdministrativeStaff(apiBaseUrl, token, id);
+      console.log('deleteAdministrativeStaff result:', result);
+
+      if (result && typeof result === 'object' && result.success) {
+        setSuccess('Administrative staff deleted successfully!');
+        fetchData();
+        setTimeout(() => setSuccess(null), 2000);
+      } else {
+        const errorMsg = result?.error || 'Failed to delete administrative staff: Invalid response format.';
+        setErrors({ general: errorMsg });
+        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
+      }
+    } catch (error) {
+      const errorMsg = error?.response?.data?.error || error.message || 'Failed to delete administrative staff.';
+      setErrors({ general: errorMsg });
+      setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
+      console.error('Error in handleDelete:', error);
     }
   };
 
@@ -78,21 +88,39 @@ const AdministrativeStaffList = () => {
     }
 
     const payload = { user_id: userId, admin_accord: true };
-    setDebugInfo((prev) => [...prev, { request: payload }]);
+    setDebugInfo((prev) => [...prev, { request: payload, response: null }]);
 
-    const result = await updateUserProfile(apiBaseUrl, userId, true);
-    setDebugInfo((prev) =>
-      prev.map((item, index) =>
-        index === prev.length - 1 ? { ...item, response: result } : item
-      )
-    );
+    try {
+      const result = await updateUserProfile(apiBaseUrl, userId, true);
+      console.log('updateUserProfile result:', result);
+      setDebugInfo((prev) =>
+        prev.map((item, index) =>
+          index === prev.length - 1 ? { ...item, response: result } : item
+        )
+      );
 
-    if (result.success) {
-      setSuccess(`Admin accord granted to ${nom} ${prenom}!`);
-      fetchData();
-      setTimeout(() => setSuccess(null), 2000);
-    } else {
-      setErrors({ general: result.error || 'Failed to grant admin accord.' });
+      if (result && typeof result === 'object' && result.success) {
+        setSuccess(`Admin accord granted to ${nom} ${prenom}!`);
+        fetchData();
+        setTimeout(() => setSuccess(null), 2000);
+      } else {
+        const errorMsg = result?.error || 'Failed to grant admin accord: Invalid response format.';
+        setErrors({ general: errorMsg });
+        setDebugInfo((prev) =>
+          prev.map((item, index) =>
+            index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
+          )
+        );
+      }
+    } catch (error) {
+      const errorMsg = error?.response?.data?.error || error.message || 'Failed to grant admin accord.';
+      setErrors({ general: errorMsg });
+      setDebugInfo((prev) =>
+        prev.map((item, index) =>
+          index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
+        )
+      );
+      console.error('Error in handleGrantAccord:', error);
     }
   };
 
@@ -177,7 +205,7 @@ const AdministrativeStaffList = () => {
               </div>
             )}
             <div className="debug-section">
-              <h3>Debug: Give Accord Requests</h3>
+              <h3>Debug: API Requests</h3>
               {debugInfo.length === 0 ? (
                 <p className="no-data">No requests made.</p>
               ) : (
