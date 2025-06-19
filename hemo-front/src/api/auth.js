@@ -1,5 +1,7 @@
 import axios from 'axios';
 import api from './api';
+import { getTenantConfig } from '../utils/tenant';
+
 
 export const checkSubdomain = async (rootApiBaseUrl, subdomain) => {
   console.log('Checking subdomain:', { rootApiBaseUrl, subdomain });
@@ -68,8 +70,9 @@ export const loginTenant = async (apiBaseUrl, username, password) => {
 
 export const loginSuperAdmin = async (username, password) => {
   try {
+    const { rootApiBaseUrl } = getTenantConfig();
     console.log('Sending superadmin login request:', { username });
-    const response = await api.post('https://www.cimssante.com/api/superadmin-login/', { username, password });
+    const response = await api.post(`${rootApiBaseUrl}superadmin-login/`, { username, password });
     console.log('Superadmin login response:', response.data);
     return response.data;
   } catch (error) {
