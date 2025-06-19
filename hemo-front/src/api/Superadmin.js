@@ -20,7 +20,7 @@ export const getCenters = async (rootApiBaseUrl, params = {}) => {
     const cleanedRootApiBaseUrl = rootApiBaseUrl.replace(/^https:\/\/www\./, 'https://').replace(/\/+$/, '');
 
     // Ensure correct endpoint URL (add leading '/api/' if needed)
-    const response = await api.get(`${cleanedRootApiBaseUrl}centers/`, {
+    const response = await api.get(`${cleanedRootApiBaseUrl}/centers/`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Cache-Control': 'no-cache',
