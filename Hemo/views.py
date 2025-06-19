@@ -331,7 +331,7 @@ class CenterListAPIView(APIView):
 
             logger.info(f"Retrieved {len(centers_to_serialize)} centers (page) with filters: label={label_filter}, governorate_id={governorate_id}, delegation_id={delegation_id}")
             
-            return paginator.get_paginated_response({'success': True, 'data': centers_data})
+            return paginator.get_paginated_response(centers_data)
 
         except Exception as e:
             logger.error(f"Error in CenterListAPIView: {str(e)}")
