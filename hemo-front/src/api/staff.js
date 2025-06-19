@@ -259,7 +259,7 @@ export const updateAdministrativeStaff = async (apiBaseUrl, token, id, data) => 
 
 
 export const deleteAdministrativeStaff = async (apiBaseUrl, token, id) => {
-  try {
+  try {console.log(`${apiBaseUrl}delete-administrative-staff/${id}/`)
     return await handleFetch(`${apiBaseUrl}delete-administrative-staff/${id}/`, {
       method: 'DELETE',
       headers: {

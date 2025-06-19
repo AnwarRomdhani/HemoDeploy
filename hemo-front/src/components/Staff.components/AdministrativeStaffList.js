@@ -5,6 +5,7 @@ import { getAdministrativeStaff, deleteAdministrativeStaff, updateUserProfile } 
 import SideMenu from '../SideMenu';
 import Header from '../Header';
 import './Staff.css';
+import api from '../../api/api';
 
 const AdministrativeStaffList = () => {
   const { apiBaseUrl } = useContext(TenantContext);
@@ -60,6 +61,7 @@ const AdministrativeStaffList = () => {
     if (result.success) {
       setSuccess('Administrative staff deleted successfully!');
       fetchData();
+      console.log(apiBaseUrl);
       setTimeout(() => setSuccess(null), 2000);
     } else {
       setErrors({ general: result.error || 'Failed to delete administrative staff.' });

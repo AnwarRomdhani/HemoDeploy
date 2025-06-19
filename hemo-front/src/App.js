@@ -81,7 +81,6 @@ const AppContent = () => {
             }
           />
           <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="*" element={<Navigate to="/superadmin/login" replace />} />
         </Routes>
       </div>
     );
