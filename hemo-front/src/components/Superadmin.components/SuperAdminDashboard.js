@@ -46,7 +46,7 @@ const SuperAdminDashboard = () => {
         if (response.success) {
           setCenters(response.data.results || []);
           setTotalPages(Math.ceil(response.data.count / 10));
-          console.log('Centers fetched:', response.data);
+          console.log('Centers successfully fetched:', response.data.results);
         } else {
           setError(response.error || 'Failed to fetch centers');
           console.error('Centers fetch error:', response.error);
@@ -56,8 +56,10 @@ const SuperAdminDashboard = () => {
         console.error('Centers fetch error:', err);
       } finally {
         setLoading(false);
+        console.log('Finished loading.');
       }
     };
+
     fetchCenters();
   }, [navigate, rootApiBaseUrl, currentPage, filters]);
 
@@ -78,7 +80,7 @@ const SuperAdminDashboard = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page on filter change
   };
 
   const getPaginationRange = () => {
