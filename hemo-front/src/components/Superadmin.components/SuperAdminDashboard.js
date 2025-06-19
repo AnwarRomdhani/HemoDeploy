@@ -20,6 +20,7 @@ const SuperAdminDashboard = () => {
   });
 
   useEffect(() => {
+    console.log('useEffect triggered with currentPage:', currentPage, 'filters:', filters);
     const isSuperAdmin = localStorage.getItem('isSuperAdmin') === 'true';
     const storedUsername = localStorage.getItem('superAdminUsername');
     const token = localStorage.getItem('super-admin-token');
@@ -32,6 +33,7 @@ const SuperAdminDashboard = () => {
     const fetchCenters = async () => {
       setLoading(true);
       try {
+        console.log('Root API Base URL:', rootApiBaseUrl);
         const params = {
           page: currentPage,
           page_size: 10,
@@ -42,12 +44,9 @@ const SuperAdminDashboard = () => {
         const response = await getCenters(rootApiBaseUrl, params);
         console.log('Centers API response:', response);
 
-        if (response && response.results?.success && Array.isArray(response.results.data)) {
+        if (response?.results?.success && Array.isArray(response.results.data)) {
           setCenters(response.results.data);
-          setTotalPages(Math.ceil(response.count / params.page_size));
-        } else if (response.success && Array.isArray(response.data)) {
-          setCenters(response.data);
-          setTotalPages(1);
+          setTotalPages(Math.ceil(response.count / params.page_size) || 1);
         } else {
           console.error('Unexpected format for centers response:', response);
           setError('Failed to load centers. Unexpected data format.');
@@ -55,7 +54,8 @@ const SuperAdminDashboard = () => {
           setTotalPages(1);
         }
       } catch (err) {
-        setError('Failed to fetch centers.');
+        const errorMessage = err.error || err.message || 'Unknown error';
+        setError(`Failed to fetch centers: ${errorMessage}`);
         console.error('Error fetching centers:', err);
         setCenters([]);
         setTotalPages(1);

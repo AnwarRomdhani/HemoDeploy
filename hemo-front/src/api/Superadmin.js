@@ -1,31 +1,38 @@
-import api from './api';
+import api from 'axios'; // Assuming 'api' is an Axios instance; adjust if different
 
-export const getCenters = async (rootApiBaseUrl, filters = {}) => {
-  console.log('Fetching centers:', { rootApiBaseUrl, filters });
+export const getCenters = async (rootApiBaseUrl, params = {}) => {
+  console.log('Fetching centers:', { rootApiBaseUrl, params });
   try {
     const token = localStorage.getItem('super-admin-token');
     if (!token) {
       throw new Error('No super-admin-token found.');
     }
 
-    const params = new URLSearchParams();
-    if (filters.label) params.append('label', filters.label);
-    if (filters.governorate_id) params.append('governorate_id', filters.governorate_id);
-    if (filters.delegation_id) params.append('delegation_id', filters.delegation_id);
+    // Construct query parameters
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.append('page', params.page);
+    if (params.page_size) queryParams.append('page_size', params.page_size);
+    if (params.label) queryParams.append('label', params.label);
+    if (params.governorate_id) queryParams.append('governorate_id', params.governorate_id);
+    if (params.delegation_id) queryParams.append('delegation_id', params.delegation_id);
 
-    // 🔧 Clean up rootApiBaseUrl if it contains a duplicated www.
-    const cleanedRootApiBaseUrl = rootApiBaseUrl.replace(/^https:\/\/www\./, 'https://');
+    // Clean up rootApiBaseUrl
+    const cleanedRootApiBaseUrl = rootApiBaseUrl.replace(/^https:\/\/www\./, 'https://').replace(/\/+$/, '');
 
-    const response = await api.get(`${cleanedRootApiBaseUrl}centers/`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params,
+    // Ensure correct endpoint URL (add leading '/api/' if needed)
+    const response = await api.get(`${cleanedRootApiBaseUrl}/api/centers/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Cache-Control': 'no-cache',
+      },
+      params: queryParams,
     });
 
     console.log('Centers response:', response.data);
-    return { success: true, data: response.data };
+    return response.data; // Return raw API response
   } catch (error) {
     console.error('Centers error:', error.response?.data || error.message);
-    return { success: false, error: error.response?.data?.error || 'Failed to fetch centers.' };
+    throw error.response?.data?.error || error; // Throw error for frontend to handle
   }
 };
 
