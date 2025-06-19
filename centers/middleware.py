@@ -1,4 +1,3 @@
-# centers/middleware.py
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from .models import Center
@@ -11,14 +10,12 @@ class TenantMiddleware:
         # Skip if it's the admin interface
         if request.path.startswith('/admin/'):
             return self.get_response(request)
-            
-        # Extract the subdomain from the host
-        host = request.META['HTTP_HOST'].split(':')[0]
 
+        host = request.META['HTTP_HOST'].split(':')[0]
         subdomain = host.split('.')[0] if len(host.split('.')) > 1 else None
 
-        # Handle localhost case (root domain)
-        if subdomain in ['localhost', '127.0.0.1','cimssante']:
+        # Treat known root domains as public / superadmin
+        if subdomain in ['localhost', '127.0.0.1', 'cimssante', 'www']:
             request.tenant = None
             return self.get_response(request)
 
@@ -30,6 +27,4 @@ class TenantMiddleware:
         else:
             request.tenant = None
 
-        response = self.get_response(request)
-        return response
-    
+        return self.get_response(request)
