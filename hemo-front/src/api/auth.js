@@ -72,9 +72,7 @@ export const loginSuperAdmin = async (username, password) => {
   try {
     const { rootApiBaseUrl } = getTenantConfig();
     const cleanedRootApiBaseUrl = rootApiBaseUrl.replace(/^https:\/\/www\./, 'https://');
-    console.log('Sending superadmin login request:', { username });
     const response = await api.post(`${cleanedRootApiBaseUrl}superadmin-login/`, { username, password });
-    console.log('Superadmin login response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Superadmin login error:', error.response?.data || error.message);

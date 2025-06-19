@@ -7,12 +7,16 @@ export const getCenters = async (rootApiBaseUrl, filters = {}) => {
     if (!token) {
       throw new Error('No super-admin-token found.');
     }
+
     const params = new URLSearchParams();
     if (filters.label) params.append('label', filters.label);
     if (filters.governorate_id) params.append('governorate_id', filters.governorate_id);
     if (filters.delegation_id) params.append('delegation_id', filters.delegation_id);
 
-    const response = await api.get(`${rootApiBaseUrl}centers/`, {
+    // 🔧 Clean up rootApiBaseUrl if it contains a duplicated www.
+    const cleanedRootApiBaseUrl = rootApiBaseUrl.replace(/^https:\/\/www\./, 'https://');
+
+    const response = await api.get(`${cleanedRootApiBaseUrl}centers/`, {
       headers: { Authorization: `Bearer ${token}` },
       params,
     });
