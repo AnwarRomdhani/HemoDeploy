@@ -36,9 +36,9 @@ export const getTenantConfig = () => {
     subdomain,
     isRoot,
     apiBaseUrl: isRoot
-      ? `https://${rootDomain}/api/`
+      ? `https://www.${rootDomain}/api/`
       : `https://${subdomain}.${rootDomain}/centers/api/`,
-    rootApiBaseUrl: `https://${rootDomain}/api/`,
+    rootApiBaseUrl: `https://www.${rootDomain}/api/`,
   };
 
   console.log('Tenant Config:', config);
