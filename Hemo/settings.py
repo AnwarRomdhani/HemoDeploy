@@ -46,6 +46,8 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https?://cims-8a3d5cead720\.herokuapp\.com$",  
     r"^http://[a-zA-Z0-9-]+\.127.0.0.1:8000$",  # center1.localhost:3000 etc.
     r"^http://127.0.0.1:8000$",  
+        r"^http://[a-zA-Z0-9-]+\.www.cimssante.com$",  # center1.localhost:3000 etc.
+    r"^http://www.cimssante.com$", 
 ]
 
 CORS_ALLOW_CREDENTIALS = True
