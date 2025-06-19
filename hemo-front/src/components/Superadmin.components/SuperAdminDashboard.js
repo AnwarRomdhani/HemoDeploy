@@ -24,17 +24,14 @@ const SuperAdminDashboard = () => {
     const storedUsername = localStorage.getItem('superAdminUsername');
     const token = localStorage.getItem('super-admin-token');
     if (!isSuperAdmin || !storedUsername || !token) {
-      console.log('No superadmin session, redirecting to login');
       navigate('/superadmin/login', { replace: true });
       return;
     }
     setUsername(storedUsername);
-    console.log('Superadmin dashboard loaded:', { username: storedUsername });
 
     const fetchCenters = async () => {
       setLoading(true);
       try {
-        console.log('Fetching centers with filters:', { ...filters, page: currentPage });
         const params = {
           page: currentPage,
           page_size: 10,
@@ -43,34 +40,41 @@ const SuperAdminDashboard = () => {
           ...(filters.delegation_id && { delegation_id: filters.delegation_id }),
         };
         const response = await getCenters(rootApiBaseUrl, params);
-        if (response.success) {
-          // Your API returns an array in response.data
-          setCenters(response.data || []);
-          setTotalPages(1); // If pagination not provided by API
-          console.log('Centers successfully fetched:', response.data);
+        console.log('Centers API response:', response);
+
+        if (response.success || response.data?.success) {
+          const data = response.data;
+
+          // Handle various potential backend formats
+          if (Array.isArray(data)) {
+            setCenters(data);
+          } else if (Array.isArray(data?.results?.data)) {
+            setCenters(data.results.data);
+            setTotalPages(Math.ceil(data.count / 10));
+          } else if (Array.isArray(data?.data)) {
+            setCenters(data.data);
+            setTotalPages(1);
+          } else {
+            console.error('Unexpected format for centers response:', data);
+            setCenters([]);
+          }
         } else {
           setError(response.error || 'Failed to fetch centers');
-          console.error('Centers fetch error:', response.error);
         }
       } catch (err) {
         setError('Failed to fetch centers.');
-        console.error('Centers fetch error:', err);
+        console.error(err);
       } finally {
         setLoading(false);
-        console.log('Finished loading.');
       }
     };
 
     fetchCenters();
   }, [navigate, rootApiBaseUrl, currentPage, filters]);
 
-  const handleAddCenter = () => {
-    console.log('Navigating to add center');
-    navigate('/superadmin/add-center');
-  };
+  const handleAddCenter = () => navigate('/superadmin/add-center');
 
   const handleLogout = () => {
-    console.log('Superadmin logging out');
     localStorage.removeItem('isSuperAdmin');
     localStorage.removeItem('superAdminUsername');
     localStorage.removeItem('super-admin-token');
@@ -88,16 +92,9 @@ const SuperAdminDashboard = () => {
     const range = [];
     let startPage = Math.max(1, currentPage - 1);
     let endPage = Math.min(totalPages, currentPage + 1);
-
-    if (currentPage === 1) {
-      endPage = Math.min(totalPages, 3);
-    } else if (currentPage === totalPages) {
-      startPage = Math.max(1, totalPages - 2);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      range.push(i);
-    }
+    if (currentPage === 1) endPage = Math.min(totalPages, 3);
+    else if (currentPage === totalPages) startPage = Math.max(1, totalPages - 2);
+    for (let i = startPage; i <= endPage; i++) range.push(i);
     return range;
   };
 
@@ -111,17 +108,15 @@ const SuperAdminDashboard = () => {
         <h1 className="dashboard-title">Superadmin Dashboard</h1>
         <div className="header-actions">
           <span className="welcome-text">Welcome, {username}</span>
-          <button className="btn-logout" onClick={handleLogout}>
-            Logout
-          </button>
+          <button className="btn-logout" onClick={handleLogout}>Logout</button>
         </div>
       </header>
+
       <div className="manage-controls">
         <h2 className="section-title">Manage Centers</h2>
-        <button className="btn-add-center" onClick={handleAddCenter}>
-          Add New Center
-        </button>
+        <button className="btn-add-center" onClick={handleAddCenter}>Add New Center</button>
       </div>
+
       <div className="filters-section">
         <input
           type="text"
@@ -148,6 +143,7 @@ const SuperAdminDashboard = () => {
           className="filter-input"
         />
       </div>
+
       <main className="main-content">
         <div className="centers-section">
           <h3 className="subsection-title">Centers</h3>
