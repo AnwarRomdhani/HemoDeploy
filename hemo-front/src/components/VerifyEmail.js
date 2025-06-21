@@ -34,10 +34,10 @@ const VerifyEmail = () => {
           navigate('/login', { state: { username, verified: true } });
         }, 2000);
       } else {
-        setError(result.error || 'Failed to verify code.');
+        setError(result.error || '');
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to verify code. Please try again.');
+      setError(err.response?.data?.error || '');
     } finally {
       setLoading(false);
     }

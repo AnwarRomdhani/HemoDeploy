@@ -2905,10 +2905,6 @@ class AddFiltreAPIView(APIView):
             logger.error("FILTRE: No tenant found")
             return Response({"error": "Invalid or missing center subdomain."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not is_local_admin(request.user):
-            logger.warning("FILTRE: Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response({"error": "Permission denied. Only local admins can add filtres."}, status=status.HTTP_403_FORBIDDEN)
-
         type = request.data.get('type')
         sterilisation = request.data.get('sterilisation', None)
 
@@ -2942,10 +2938,6 @@ class AddMembraneAPIView(APIView):
         if not tenant:
             logger.error("MEMBRANE: No tenant found")
             return Response({"error": "Invalid or missing center subdomain."}, status=status.HTTP_400_BAD_REQUEST)
-
-        if not is_local_admin(request.user):
-            logger.warning("MEMBRANE: Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response({"error": "Permission denied. Only local admins can add membranes."}, status=status.HTTP_403_FORBIDDEN)
 
         type = request.data.get('type')
         if not type:
