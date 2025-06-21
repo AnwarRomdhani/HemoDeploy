@@ -702,13 +702,6 @@ class AddAdministrativeStaffAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response(
-                {"error": "Permission denied. Only local admins can add staff."},
-                status=status.HTTP_403_FORBIDDEN
-            )
 
         # Prepare form data
         form_data = request.data.copy()
@@ -764,12 +757,6 @@ class AddTechnicalStaffAPIView(APIView):
             )
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response(
-                {"error": "Permission denied. Only local admins can add staff."},
-                status=status.HTTP_403_FORBIDDEN
-            )
 
         # Prepare form data
         form_data = request.data.copy()
@@ -1064,12 +1051,6 @@ class DeclareDeceasedAPIView(APIView):
             )
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response(
-                {"error": "Permission denied. Only local admins can declare patients deceased."},
-                status=status.HTTP_403_FORBIDDEN
-            )
 
         # Check if patient exists and belongs to the center
         try:
@@ -1133,12 +1114,6 @@ class AddHemodialysisSessionAPIView(APIView):
             )
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response(
-                {"error": "Permission denied. Only local admins can add hemodialysis sessions."},
-                status=status.HTTP_403_FORBIDDEN
-            )
 
         # Check if patient and medical activity exist
         try:
@@ -1211,9 +1186,6 @@ class AddTransmittableDiseaseRefAPIView(APIView):
             return Response({"error": "Invalid or missing center subdomain."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("TRANS_REF: Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response({"error": "Permission denied. Only local admins can add transmittable disease references."}, status=status.HTTP_403_FORBIDDEN)
 
         # Validate and save form
         form = TransmittableDiseaseRefForm(request.data)
@@ -1368,10 +1340,7 @@ class AddComplicationsRefAPIView(APIView):
             return Response({"error": "Invalid or missing center subdomain."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("COMP_REF: Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response({"error": "Permission denied. Only local admins can add complications references."}, status=status.HTTP_403_FORBIDDEN)
-
+    
         # Validate and save form
         form = ComplicationsRefForm(request.data)
         if form.is_valid():
@@ -1410,10 +1379,7 @@ class AddTransplantationRefAPIView(APIView):
             return Response({"error": "Invalid or missing center subdomain."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check LOCAL_ADMIN permission
-        if not is_local_admin(request.user):
-            logger.warning("TRANSPLANT_REF: Permission denied for user %s in center %s", request.user.username, tenant.label)
-            return Response({"error": "Permission denied. Only local admins can add transplantation references."}, status=status.HTTP_403_FORBIDDEN)
-
+  
         # Validate and save form
         form = TransplantationRefForm(request.data)
         if form.is_valid():
