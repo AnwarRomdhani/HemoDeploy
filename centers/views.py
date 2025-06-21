@@ -1889,7 +1889,7 @@ class AddTransmittableDiseaseAPIView(APIView):
                             'label_disease': form.cleaned_data['new_disease_name'],
                             'type_of_transmission': form_data.get('type_of_transmission', 'Unknown')
                         }
-                        ref_form = TransmittedDiseaseRefForm(ref_form_data)
+                        ref_form = TransmittableDiseaseRefForm(ref_form_data)
                         if ref_form.is_valid():
                             disease_ref = ref_form.save()
                             disease.disease = disease_ref
