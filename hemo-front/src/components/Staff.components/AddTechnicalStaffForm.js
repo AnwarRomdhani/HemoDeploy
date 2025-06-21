@@ -13,7 +13,7 @@ const AddTechnicalStaffForm = () => {
     nom: '',
     prenom: '',
     cin: '',
-    job_title: '',
+    qualification: '', // Changed from job_title
     role: '',
     username: '',
     email: '',
@@ -28,7 +28,7 @@ const AddTechnicalStaffForm = () => {
     if (!formData.prenom) newErrors.prenom = 'First Name is required.';
     if (!formData.cin) newErrors.cin = 'CIN is required.';
     else if (!/^\d{8}$/.test(formData.cin)) newErrors.cin = 'CIN must be exactly 8 digits.';
-    if (!formData.job_title) newErrors.job_title = 'Job Title is required.';
+    if (!formData.qualification) newErrors.qualification = 'Qualification is required.'; // Changed from job_title
     if (!formData.role) newErrors.role = 'Role is required.';
     if (!formData.username) newErrors.username = 'Username is required.';
     else if (!/^[a-zA-Z0-9]+$/.test(formData.username)) newErrors.username = 'Username must be alphanumeric.';
@@ -125,16 +125,16 @@ const AddTechnicalStaffForm = () => {
                   {errors.cin && <div className="error-message">{errors.cin}</div>}
                 </div>
                 <div className="form-group">
-                  <label>Job Title</label>
+                  <label>Qualification</label> {/* Changed from Job Title */}
                   <input
                     type="text"
-                    name="job_title"
-                    value={formData.job_title}
+                    name="qualification" /* Changed from job_title */
+                    value={formData.qualification}
                     onChange={handleChange}
-                    placeholder="Job Title"
+                    placeholder="Qualification"
                     required
                   />
-                  {errors.job_title && <div className="error-message">{errors.job_title}</div>}
+                  {errors.qualification && <div className="error-message">{errors.qualification}</div>} {/* Changed from job_title */}
                 </div>
                 <div className="form-group">
                   <label>Role</label>
