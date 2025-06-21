@@ -342,7 +342,7 @@ const AddMachine = () => {
                   name="sterilisation"
                   value={newFiltre.sterilisation}
                   onChange={handleNewFiltreChange}
-                  placeholder="Sterilisation (optional)"
+                  placeholder="Sterilisation (Required)"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                 />
                 <button

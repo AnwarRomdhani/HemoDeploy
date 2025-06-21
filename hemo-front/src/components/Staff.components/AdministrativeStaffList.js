@@ -12,7 +12,6 @@ const AdministrativeStaffList = () => {
   const [staffList, setStaffList] = useState([]);
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(null);
-  const [debugInfo, setDebugInfo] = useState([]);
 
   const fetchData = async () => {
     setErrors({});
@@ -23,7 +22,6 @@ const AdministrativeStaffList = () => {
       return;
     }
     const result = await getAdministrativeStaff(apiBaseUrl, token);
-    console.log('getAdministrativeStaff result:', result);
     if (!result?.success) {
       setErrors({ general: result?.error || 'Failed to fetch administrative staff.' });
       setStaffList([]);
@@ -57,29 +55,19 @@ const AdministrativeStaffList = () => {
     }
 
     try {
-      console.log('Calling deleteAdministrativeStaff with:', {
-        apiBaseUrl,
-        id,
-        token: token.substring(0, 10) + '...', // Truncate token for safety
-      });
       const result = await deleteAdministrativeStaff(apiBaseUrl, token, id);
-      console.log('deleteAdministrativeStaff result:', result);
 
       if (result && typeof result === 'object' && result.success) {
         setSuccess('Administrative staff deleted successfully!');
         fetchData();
         setTimeout(() => setSuccess(null), 2000);
-        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: result }]);
       } else {
         const errorMsg = result?.error || 'Failed to delete administrative staff: Invalid response format.';
         setErrors({ general: errorMsg });
-        setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
       }
     } catch (error) {
       const errorMsg = error.message || 'Failed to delete administrative staff.';
       setErrors({ general: errorMsg });
-      setDebugInfo((prev) => [...prev, { request: { id, action: 'delete' }, response: { error: errorMsg } }]);
-      console.error('Error in handleDelete:', error);
     }
   };
 
@@ -93,16 +81,9 @@ const AdministrativeStaffList = () => {
     }
 
     const payload = { user_id: userId, admin_accord: true };
-    setDebugInfo((prev) => [...prev, { request: payload, response: null }]);
 
     try {
       const result = await updateUserProfile(apiBaseUrl, userId, true);
-      console.log('updateUserProfile result:', result);
-      setDebugInfo((prev) =>
-        prev.map((item, index) =>
-          index === prev.length - 1 ? { ...item, response: result } : item
-        )
-      );
 
       if (result && typeof result === 'object' && result.success) {
         setSuccess(`Admin accord granted to ${nom} ${prenom}!`);
@@ -111,21 +92,10 @@ const AdministrativeStaffList = () => {
       } else {
         const errorMsg = result?.error || 'Failed to grant admin accord: Invalid response format.';
         setErrors({ general: errorMsg });
-        setDebugInfo((prev) =>
-          prev.map((item, index) =>
-            index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
-          )
-        );
       }
     } catch (error) {
       const errorMsg = error.message || 'Failed to grant admin accord.';
       setErrors({ general: errorMsg });
-      setDebugInfo((prev) =>
-        prev.map((item, index) =>
-          index === prev.length - 1 ? { ...item, response: { error: errorMsg } } : item
-        )
-      );
-      console.error('Error in handleGrantAccord:', error);
     }
   };
 
@@ -209,35 +179,6 @@ const AdministrativeStaffList = () => {
                 </table>
               </div>
             )}
-            <div className="debug-section">
-              <h3>Debug: API Requests</h3>
-              {debugInfo.length === 0 ? (
-                <p className="no-data">No requests made.</p>
-              ) : (
-                <div className="table-wrapper">
-                  <table className="staff-table">
-                    <thead>
-                      <tr>
-                        <th>Request Payload</th>
-                        <th>Response</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {debugInfo.map((info, index) => (
-                        <tr key={index}>
-                          <td>
-                            <pre>{JSON.stringify(info.request, null, 2)}</pre>
-                          </td>
-                          <td>
-                            <pre>{JSON.stringify(info.response, null, 2)}</pre>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
