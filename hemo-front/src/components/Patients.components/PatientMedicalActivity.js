@@ -142,7 +142,6 @@ const PatientMedicalActivity = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Patient ID from useParams:', id);
     const fetchData = async () => {
       const token = localStorage.getItem('tenant-token');
       if (!token) {
@@ -170,35 +169,35 @@ const PatientMedicalActivity = () => {
       if (doctorsResult.success) {
         setDoctors(doctorsResult.data);
       } else {
-        console.error('Failed to fetch medical staff:', doctorsResult.error);
+        setError(doctorsResult.error);
       }
 
       const typeHemoResult = await getTypeHemo(apiBaseUrl, token);
       if (typeHemoResult.success) {
         setTypeHemos(typeHemoResult.data);
       } else {
-        console.error('Failed to fetch type hemo:', typeHemoResult.error);
+        setError(typeHemoResult.error);
       }
 
       const diseaseResult = await getTransmittableDiseaseRef(apiBaseUrl, token);
       if (diseaseResult.success) {
         setTransmittableDiseases(diseaseResult.data);
       } else {
-        console.error('Failed to fetch transmittable disease ref:', diseaseResult.error);
+        setError(diseaseResult.error);
       }
 
       const complicationResult = await getComplicationsRef(apiBaseUrl, token);
       if (complicationResult.success) {
         setComplications(complicationResult.data);
       } else {
-        console.error('Failed to fetch complications ref:', complicationResult.error);
+        setError(complicationResult.error);
       }
 
       const transplantationResult = await getTransplantationRef(apiBaseUrl, token);
       if (transplantationResult.success) {
         setTransplantations(transplantationResult.data);
       } else {
-        console.error('Failed to fetch transplantation ref:', transplantationResult.error);
+        setError(transplantationResult.error);
       }
 
       setLoading(false);
@@ -239,7 +238,7 @@ const PatientMedicalActivity = () => {
       setPatient(patientResult.data);
     }
   };
-  console.log(patient)
+
   const callPredictionApi = async (session) => {
     const token = localStorage.getItem('tenant-token');
     if (!token) {
@@ -301,9 +300,6 @@ const PatientMedicalActivity = () => {
       dialyzer_type: session.dialyzer_type.toLowerCase()
 
     };
-    console.log(session.dialyzer_type)
-    console.log(session.vascular_access_type.toLowerCase)
-    console.log('Sending payload:', payload);
 
     try {
       const response = await fetch(`${apiBaseUrl}predict-hemodialysis/`, {
