@@ -13,14 +13,8 @@ const SuperAdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({
-    label: '',
-    governorate_id: '',
-    delegation_id: '',
-  });
 
   useEffect(() => {
-    console.log('useEffect triggered with currentPage:', currentPage, 'filters:', filters);
     const isSuperAdmin = localStorage.getItem('isSuperAdmin') === 'true';
     const storedUsername = localStorage.getItem('superAdminUsername');
     const token = localStorage.getItem('super-admin-token');
@@ -33,22 +27,16 @@ const SuperAdminDashboard = () => {
     const fetchCenters = async () => {
       setLoading(true);
       try {
-        console.log('Root API Base URL:', rootApiBaseUrl);
         const params = {
           page: currentPage,
           page_size: 10,
-          ...(filters.label && { label: filters.label }),
-          ...(filters.governorate_id && { governorate_id: filters.governorate_id }),
-          ...(filters.delegation_id && { delegation_id: filters.delegation_id }),
         };
         const response = await getCenters(rootApiBaseUrl, params);
-        console.log('Centers API response:', response);
 
         if (response?.results?.success && Array.isArray(response.results.data)) {
           setCenters(response.results.data);
           setTotalPages(Math.ceil(response.count / params.page_size) || 1);
         } else {
-          console.error('Unexpected format for centers response:', response);
           setError('Failed to load centers. Unexpected data format.');
           setCenters([]);
           setTotalPages(1);
@@ -56,7 +44,6 @@ const SuperAdminDashboard = () => {
       } catch (err) {
         const errorMessage = err.error || err.message || 'Unknown error';
         setError(`Failed to fetch centers: ${errorMessage}`);
-        console.error('Error fetching centers:', err);
         setCenters([]);
         setTotalPages(1);
       } finally {
@@ -65,7 +52,7 @@ const SuperAdminDashboard = () => {
     };
 
     fetchCenters();
-  }, [navigate, rootApiBaseUrl, currentPage, filters]);
+  }, [navigate, rootApiBaseUrl, currentPage]);
 
   const handleAddCenter = () => navigate('/superadmin/add-center');
 
@@ -75,12 +62,6 @@ const SuperAdminDashboard = () => {
     localStorage.removeItem('super-admin-token');
     localStorage.removeItem('super-admin-refresh-token');
     navigate('/superadmin/login', { replace: true });
-  };
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
-    setCurrentPage(1);
   };
 
   const getPaginationRange = () => {
@@ -100,7 +81,6 @@ const SuperAdminDashboard = () => {
   };
 
   const paginate = (pageNumber) => {
-    console.log('Paginating to page:', pageNumber);
     setCurrentPage(pageNumber);
   };
 
@@ -119,33 +99,6 @@ const SuperAdminDashboard = () => {
       <div className="manage-controls">
         <h2 className="section-title">Manage Centers</h2>
         <button className="btn-add-center" onClick={handleAddCenter}>Add New Center</button>
-      </div>
-
-      <div className="filters-section">
-        <input
-          type="text"
-          name="label"
-          placeholder="Filter by label"
-          value={filters.label}
-          onChange={handleFilterChange}
-          className="filter-input"
-        />
-        <input
-          type="text"
-          name="governorate_id"
-          placeholder="Filter by governorate ID"
-          value={filters.governorate_id}
-          onChange={handleFilterChange}
-          className="filter-input"
-        />
-        <input
-          type="text"
-          name="delegation_id"
-          placeholder="Filter by delegation ID"
-          value={filters.delegation_id}
-          onChange={handleFilterChange}
-          className="filter-input"
-        />
       </div>
 
       <main className="main-content">
