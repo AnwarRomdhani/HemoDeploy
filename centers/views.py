@@ -2762,7 +2762,7 @@ class DeleteTechnicalStaffAPIView(APIView):
 
 class MachineListAPIView(APIView):
     permission_classes = [RoleBasedPermission]
-    allowed_roles = ['LOCAL_ADMIN','TECHNICAL']
+    allowed_roles = ['LOCAL_ADMIN', 'MEDICAL_PARA_STAFF','WORKER', 'TECHNICAl', 'VIEWER']
 
     def get(self, request):
         logger.debug("MACHINE: Received GET request to MachineListAPIView. User: %s", request.user.username)
