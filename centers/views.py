@@ -1211,7 +1211,7 @@ class AddTransmittableDiseaseRefAPIView(APIView):
 
 class UpdateMachineAPIView(APIView):
     permission_classes = [RoleBasedPermission]
-    required_roles = ['LOCAL_ADMIN', 'TECHNICAL']
+    allowed_roles = ['LOCAL_ADMIN', 'TECHNICAL']
 
     def get(self, request, machine_id):
         tenant = request.tenant
@@ -1302,7 +1302,7 @@ class UpdateMachineAPIView(APIView):
             
 class DeleteMachineAPIView(APIView):
     permission_classes = [RoleBasedPermission]
-    required_roles = ['LOCAL_ADMIN' , 'TECHNICAL']
+    allowed_roles = ['LOCAL_ADMIN' , 'TECHNICAL']
 
     def delete(self, request, machine_id):
         tenant = request.tenant

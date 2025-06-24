@@ -4,13 +4,13 @@ import { getTenantConfig } from '../utils/tenant';
 
 
 export const checkSubdomain = async (rootApiBaseUrl, subdomain) => {
-  console.log('Checking subdomain:', { rootApiBaseUrl, subdomain });
+  ;
   try {
     const response = await axios.get(`${rootApiBaseUrl}check-subdomain/`, {
       params: { subdomain },
       headers: { 'Content-Type': 'application/json' },
     });
-    console.log('Check subdomain response:', response.data);
+    ;
     return { success: true, data: response.data };
   } catch (error) {
     console.error('Check subdomain error:', {
@@ -23,17 +23,12 @@ export const checkSubdomain = async (rootApiBaseUrl, subdomain) => {
 };
 
 export const loginTenant = async (apiBaseUrl, username, password) => {
-  console.log('Sending tenant login request:', { apiBaseUrl, username });
+  ;
   try {
     const response = await api.post(`${apiBaseUrl}login/`, { username, password }, {
       headers: { 'Content-Type': 'application/json' },
     });
-    console.log('Tenant login response:', {
-      access: response.data.access?.slice(0, 10) + '...' || 'NOT SET',
-      refresh: response.data.refresh?.slice(0, 10) + '...' || 'NOT SET',
-      role: response.data.role,
-      center: response.data.center,
-    });
+    ;
 
     if (!response.data.access || !response.data.refresh) {
       throw new Error('Missing access or refresh token in response.');
@@ -53,10 +48,7 @@ export const loginTenant = async (apiBaseUrl, username, password) => {
       status: error.response?.status,
     });
     if (error.response?.status === 403 && error.response?.data?.error === 'Email verification required.') {
-      console.log('Detected email verification required:', {
-        user_id: error.response.data.user_id,
-        redirect_to: error.response.data.redirect_to,
-      });
+      ;
       return {
         success: false,
         needsVerification: true,
@@ -81,7 +73,7 @@ export const loginSuperAdmin = async (username, password) => {
 };
 
 export const getUserProfile = async (apiBaseUrl, token) => {
-  console.log('Fetching user profile:', { apiBaseUrl });
+  ;
   try {
     const response = await api.get(`${apiBaseUrl}user-profile/`, {
       headers: {
@@ -89,7 +81,7 @@ export const getUserProfile = async (apiBaseUrl, token) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('User profile response:', response.data);
+    ;
     return { success: true, data: response.data };
   } catch (error) {
     console.error('User profile error:', {
@@ -102,7 +94,7 @@ export const getUserProfile = async (apiBaseUrl, token) => {
 };
 
 export const verifyEmail = async (apiBaseUrl, userId, verificationCode) => {
-  console.log('Verifying email:', { apiBaseUrl, userId });
+  ;
   try {
     const response = await api.post(
       `${apiBaseUrl}verify-user/`,
@@ -111,7 +103,7 @@ export const verifyEmail = async (apiBaseUrl, userId, verificationCode) => {
         headers: { 'Content-Type': 'application/json' },
       }
     );
-    console.log('Verify email response:', response.data);
+    ;
     return response.data;
   } catch (error) {
     console.error('Verification error:', {
@@ -132,6 +124,6 @@ export const logout = () => {
   localStorage.removeItem('superAdminUsername');
   localStorage.removeItem('super-admin-token');
   localStorage.removeItem('super-admin-refresh-token');
-  console.log('Logged out, localStorage cleared');
+  ;
   window.location.href = '/login';
 };

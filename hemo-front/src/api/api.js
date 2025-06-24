@@ -12,11 +12,7 @@ api.interceptors.request.use(
       const superAdminToken = localStorage.getItem('super-admin-token');
       if (superAdminToken) {
         config.headers.Authorization = `Bearer ${superAdminToken}`;
-        console.log('API request (superadmin):', {
-          url: config.url,
-          method: config.method,
-          headers: { Authorization: `Bearer ${superAdminToken.slice(0, 10)}...` },
-        });
+        ;
       }
       if (config.method !== 'get') {
         const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)?.[1];
@@ -30,11 +26,7 @@ api.interceptors.request.use(
       const tenantToken = localStorage.getItem('tenant-token');
       if (tenantToken) {
         config.headers.Authorization = `Bearer ${tenantToken}`;
-        console.log('API request (tenant):', {
-          url: config.url,
-          method: config.method,
-          headers: { Authorization: `Bearer ${tenantToken.slice(0, 10)}...` },
-        });
+        ;
       }
     }
     return config;
@@ -49,10 +41,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.log('401 detected:', {
-        url: error.config?.url,
-        response: error.response?.data,
-      });
+      ;
       if (error.config?.url.includes('/api/superadmin/') || 
           error.config?.url.includes('/api/governorates/') || 
           error.config?.url.includes('/api/delegations/') || 
@@ -62,7 +51,7 @@ api.interceptors.response.use(
         localStorage.removeItem('isSuperAdmin');
         localStorage.removeItem('superAdminUsername');
         if (window.location.pathname !== '/superadmin/login') {
-          console.log('Redirecting to /superadmin/login');
+          ;
           window.location.href = '/superadmin/login';
         }
       } else {
@@ -71,7 +60,7 @@ api.interceptors.response.use(
         localStorage.removeItem('role');
         localStorage.removeItem('center');
         if (window.location.pathname !== '/login') {
-          console.log('Redirecting to /login');
+          ;
           window.location.href = '/login';
         }
       }
