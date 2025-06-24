@@ -13,7 +13,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  console.log('Login Config:', { subdomain, apiBaseUrl, isValidSubdomain });
+ ;
 
   if (isValidSubdomain === null) return <div>Loading...</div>;
   if (!isValidSubdomain) return <NotFound message={subdomainError || 'Invalid subdomain.'} />;
@@ -29,9 +29,9 @@ const Login = () => {
         throw new Error('localStorage is disabled. Please enable it or use a different browser.');
       }
 
-      console.log('Tenant login attempt:', { apiBaseUrl, username });
+      ;
       const result = await loginTenant(apiBaseUrl, username, password);
-      console.log('Login result:', { result });
+      ;
 
       if (result.success) {
         const { accessToken, refreshToken, role, center } = result;
@@ -46,20 +46,14 @@ const Login = () => {
           localStorage.setItem('center', center);
 
           const storedToken = localStorage.getItem('tenant-token');
-          console.log('Stored tenant tokens:', {
-            token: storedToken?.slice(0, 10) + '...' || 'NOT SET',
-            refreshToken: localStorage.getItem('tenant-refresh-token')?.slice(0, 10) + '...' || 'NOT SET',
-            role: localStorage.getItem('role'),
-            center: localStorage.getItem('center'),
-            hostname: window.location.hostname,
-          });
+          ;
 
           if (!storedToken || storedToken !== accessToken) {
             throw new Error('Failed to store token in localStorage.');
           }
 
           setTimeout(() => {
-            console.log('Navigating to /home');
+           ;
             navigate('/home', { replace: true });
           }, 100);
         } catch (storageError) {
@@ -68,7 +62,7 @@ const Login = () => {
           return;
         }
       } else if (result.needsVerification) {
-        console.log('Redirecting to /verify-email with user_id:', { user_id: result.user_id, username });
+        ;
         navigate('/verify-email', { state: { username, user_id: result.user_id } });
       } else {
         console.error('Tenant login failed:', result.error);

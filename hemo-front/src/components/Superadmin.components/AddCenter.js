@@ -29,14 +29,14 @@ const AddCenter = () => {
   useEffect(() => {
     const token = localStorage.getItem('super-admin-token');
     if (!token) {
-      console.log('No super-admin-token, redirecting to login');
+      ;
       navigate('/superadmin/login', { replace: true });
       return;
     }
 
     const fetchGovernorates = async () => {
       try {
-        console.log('Fetching governorates:', { rootApiBaseUrl });
+        ;
         const response = await getGovernorates(rootApiBaseUrl);
         if (response.success) {
           setGovernorates(response.data.data || []);
@@ -55,7 +55,7 @@ const AddCenter = () => {
     if (formData.governorate) {
       const fetchDelegations = async () => {
         try {
-          console.log('Fetching delegations for governorate:', formData.governorate);
+          ;
           const response = await getDelegations(rootApiBaseUrl);
           if (response.success) {
             const filteredDelegations = response.data.data.filter(
@@ -88,7 +88,7 @@ const AddCenter = () => {
     setLoading(true);
 
     try {
-      console.log('Submitting center:', formData);
+      ;
       const response = await addCenter(rootApiBaseUrl, {
         ...formData,
         governorate: formData.governorate ? parseInt(formData.governorate) : null,

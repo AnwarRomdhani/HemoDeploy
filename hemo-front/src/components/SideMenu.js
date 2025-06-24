@@ -9,7 +9,7 @@ const SideMenu = () => {
   const location = useLocation();
 
   const role = localStorage.getItem('role') || 'User';
-  console.log(role);
+ ;
 
   // Define which menu items are disabled based on role
   const disabledMenus = {
@@ -26,7 +26,7 @@ const SideMenu = () => {
   const isDisabled = (menuKey) => disabledItems.includes(menuKey);
 
   const toggleMenu = () => {
-    console.log('Toggling side menu collapsed:', !isCollapsed);
+    ;
     setIsCollapsed(!isCollapsed);
     if (!isCollapsed) {
       setShowStaffSubmenu(false);
@@ -36,13 +36,13 @@ const SideMenu = () => {
 
   const toggleStaffSubmenu = () => {
     if (isCollapsed || isDisabled('staff')) return;
-    console.log('Toggling staff submenu:', !showStaffSubmenu);
+    ;
     setShowStaffSubmenu(!showStaffSubmenu);
   };
 
   const toggleEquipmentSubmenu = () => {
     if (isCollapsed || isDisabled('equipment')) return;
-    console.log('Toggling equipment submenu:', !showEquipmentSubmenu);
+    ;
     setShowEquipmentSubmenu(!showEquipmentSubmenu);
   };
 

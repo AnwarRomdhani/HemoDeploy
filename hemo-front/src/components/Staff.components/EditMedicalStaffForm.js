@@ -31,7 +31,7 @@ const EditMedicalStaffForm = () => {
         return;
       }
       try {
-        console.log(`Fetching staff data from: ${apiBaseUrl}medical-staff/${id}/`);
+        ;
         const response = await fetch(`${apiBaseUrl}medical-staff/${id}/`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
@@ -94,10 +94,10 @@ const EditMedicalStaffForm = () => {
       return;
     }
 
-    console.log('Submitting payload:', { id, token, formData });
+    ;
     try {
       const result = await updateMedicalStaff(apiBaseUrl, token, id, formData);
-      console.log('updateMedicalStaff result:', result);
+      ;
       if (!result) {
         setErrors({ general: 'Update failed: No response from server.' });
         return;

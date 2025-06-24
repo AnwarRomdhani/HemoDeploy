@@ -24,7 +24,7 @@ export const useUserApi = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('User details response:', response.data);
+      ;
       return { success: true, data: response.data };
     } catch (error) {
       console.error('Error fetching user details:', error.response?.data || error.message);

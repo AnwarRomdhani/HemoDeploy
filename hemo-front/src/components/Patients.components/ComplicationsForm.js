@@ -13,7 +13,7 @@ const ComplicationsForm = ({ apiBaseUrl, token, patientId, complications, onSubm
   const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (field, value) => {
-    console.log(`ComplicationsForm input change - ${field}:`, value);
+    ;
     setFormData({ ...formData, [field]: value });
     setFormErrors({ ...formErrors, [field]: '' });
   };
@@ -22,7 +22,7 @@ const ComplicationsForm = ({ apiBaseUrl, token, patientId, complications, onSubm
     setUseNewRef(!useNewRef);
     setFormData({ ...formData, complication: '', new_complication_name: '' });
     setFormErrors({});
-    console.log('ComplicationsForm toggled useNewRef:', !useNewRef);
+    ;
   };
 
   const validateForm = () => {
@@ -47,7 +47,7 @@ const ComplicationsForm = ({ apiBaseUrl, token, patientId, complications, onSubm
       notes: formData.notes || '',
     };
 
-    console.log('ComplicationsForm formData before processing:', formData);
+    ;
 
     if (useNewRef) {
       const newName = formData.new_complication_name.trim();
@@ -63,7 +63,7 @@ const ComplicationsForm = ({ apiBaseUrl, token, patientId, complications, onSubm
       onSubmit(false);
     }
 
-    console.log('ComplicationsForm submit data:', data);
+    ;
 
     const result = await addComplications(apiBaseUrl, token, patientId, data);
     if (result.success) {

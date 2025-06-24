@@ -40,7 +40,7 @@ const Header = () => {
   }, [fetchUserDetails, subdomain]);
 
   const handleLogout = () => {
-    console.log('Logging out:', { subdomain });
+    ;
     localStorage.removeItem('tenant-token');
     localStorage.removeItem('role');
     localStorage.removeItem('center');
@@ -48,7 +48,7 @@ const Header = () => {
   };
 
   const handleUserProfile = () => {
-    console.log('Navigating to User Profile');
+    ;
     navigate('/home/user-profile');
   };
 

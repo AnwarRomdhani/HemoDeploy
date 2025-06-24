@@ -23,7 +23,7 @@ const AddPatientForm = ({ apiBaseUrl, token, cnams, onSubmit, onClose }) => {
   const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (field, value) => {
-    console.log(`AddPatientForm input change - ${field}:`, value);
+    ;
     setFormData({ ...formData, [field]: value });
     setFormErrors({ ...formErrors, [field]: '' });
   };
@@ -32,7 +32,7 @@ const AddPatientForm = ({ apiBaseUrl, token, cnams, onSubmit, onClose }) => {
     setUseNewCnam(!useNewCnam);
     setFormData({ ...formData, cnam: '', new_cnam_number: '' });
     setFormErrors({});
-    console.log('AddPatientForm toggled useNewCnam:', !useNewCnam);
+    ;
   };
 
   const validateForm = () => {
@@ -76,7 +76,7 @@ const AddPatientForm = ({ apiBaseUrl, token, cnams, onSubmit, onClose }) => {
       data.date_first_dia = formData.date_first_dia;
     }
 
-    console.log('AddPatientForm formData before processing:', formData);
+    ;
 
     if (useNewCnam) {
       data.new_cnam_number = formData.new_cnam_number.trim();
@@ -89,7 +89,7 @@ const AddPatientForm = ({ apiBaseUrl, token, cnams, onSubmit, onClose }) => {
       data.cnam = cnamId;
     }
 
-    console.log('AddPatientForm submit data:', data);
+    ;
 
     const result = await addPatient(apiBaseUrl, token, data);
     if (result.success) {

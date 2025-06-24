@@ -13,7 +13,7 @@ const TransmittableDiseaseForm = ({ apiBaseUrl, token, patientId, diseases, onSu
   const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (field, value) => {
-    console.log(`TransmittableDiseaseForm input change - ${field}:`, value);
+    ;
     setFormData({ ...formData, [field]: value });
     setFormErrors({ ...formErrors, [field]: '' });
   };
@@ -22,7 +22,7 @@ const TransmittableDiseaseForm = ({ apiBaseUrl, token, patientId, diseases, onSu
     setUseNewRef(!useNewRef);
     setFormData({ ...formData, disease: '', new_disease_name: '', type_of_transmission: '' });
     setFormErrors({});
-    console.log('TransmittableDiseaseForm toggled useNewRef:', !useNewRef);
+    ;
   };
 
   const validateForm = () => {
@@ -48,7 +48,7 @@ const TransmittableDiseaseForm = ({ apiBaseUrl, token, patientId, diseases, onSu
       date_of_contraction: formData.date_of_contraction,
     };
 
-    console.log('TransmittableDiseaseForm formData before processing:', formData);
+    ;
 
     if (useNewRef) {
       data.new_disease_name = formData.new_disease_name.trim();
@@ -64,7 +64,7 @@ const TransmittableDiseaseForm = ({ apiBaseUrl, token, patientId, diseases, onSu
       onSubmit(false);
     }
 
-    console.log('TransmittableDiseaseForm submit data:', data);
+    ;
 
     const result = await addTransmittableDisease(apiBaseUrl, token, patientId, data);
     if (result.success) {

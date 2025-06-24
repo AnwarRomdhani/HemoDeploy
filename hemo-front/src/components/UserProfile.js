@@ -30,7 +30,7 @@ const UserProfile = () => {
 
       try {
         const result = await fetchUserDetails();
-        console.log('fetchUserDetails result:', result);
+       ;
         if (result.success) {
           setUserData(result.data);
         } else {

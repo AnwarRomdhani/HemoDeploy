@@ -1,9 +1,9 @@
 export const getTenantConfig = () => {
   let hostname = window.location.hostname.toLowerCase();
-  console.log('Raw hostname:', hostname);
+  ;
   hostname = hostname.split(':')[0];
   const parts = hostname.split('.');
-  console.log('Hostname parts:', parts);
+  ;
 
   let subdomain = null;
   let isRoot = false;
@@ -41,6 +41,6 @@ export const getTenantConfig = () => {
     rootApiBaseUrl: `https://www.${rootDomain}/api/`,
   };
 
-  console.log('Tenant Config:', config);
+  ;
   return config;
 };

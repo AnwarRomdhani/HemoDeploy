@@ -13,7 +13,7 @@ const TransplantationForm = ({ apiBaseUrl, token, patientId, transplantations, o
   const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (field, value) => {
-    console.log(`TransplantationForm input change - ${field}:`, value);
+    ;
     setFormData({ ...formData, [field]: value });
     setFormErrors({ ...formErrors, [field]: '' });
   };
@@ -22,7 +22,7 @@ const TransplantationForm = ({ apiBaseUrl, token, patientId, transplantations, o
     setUseNewRef(!useNewRef);
     setFormData({ ...formData, transplantation: '', new_transplantation_name: '' });
     setFormErrors({});
-    console.log('TransplantationForm toggled useNewRef:', !useNewRef);
+    ;
   };
 
   const validateForm = () => {
@@ -46,7 +46,7 @@ const TransplantationForm = ({ apiBaseUrl, token, patientId, transplantations, o
       notes: formData.notes || '',
     };
 
-    console.log('TransplantationForm formData before processing:', formData);
+    ;
 
     if (useNewRef) {
       data.new_transplantation_name = formData.new_transplantation_name.trim();
@@ -61,7 +61,7 @@ const TransplantationForm = ({ apiBaseUrl, token, patientId, transplantations, o
       onSubmit(false);
     }
 
-    console.log('TransplantationForm submit data:', data);
+    ;
 
     const result = await addTransplantation(apiBaseUrl, token, patientId, data);
     if (result.success) {

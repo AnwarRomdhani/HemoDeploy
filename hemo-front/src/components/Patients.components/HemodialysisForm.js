@@ -124,7 +124,7 @@ const HemodialysisForm = ({ apiBaseUrl, token, patientId, doctors, typeHemos, on
       setFormErrors(errors);
       return;
     }
-      console.log('Payload being sent:', formData);
+      ;
     const result = await addHemodialysisSession(apiBaseUrl, token, patientId, formData);
     if (result.success) {
       onSubmit();

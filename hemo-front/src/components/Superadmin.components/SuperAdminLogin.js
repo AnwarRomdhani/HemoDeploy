@@ -15,20 +15,16 @@ const SuperAdminLogin = () => {
     setLoading(true);
 
     try {
-      console.log('Superadmin login attempt:', { username });
+      ;
       const result = await loginSuperAdmin(username, password);
-      console.log('Login result:', result);
+      ;
 
       if (result.success) {
         localStorage.setItem('super-admin-token', result.data.access_token);
         localStorage.setItem('super-admin-refresh-token', result.data.refresh_token);
         localStorage.setItem('isSuperAdmin', 'true');
         localStorage.setItem('superAdminUsername', result.data.user.username);
-        console.log('Stored superadmin data:', {
-          token: localStorage.getItem('super-admin-token').slice(0, 10) + '...',
-          isSuperAdmin: localStorage.getItem('isSuperAdmin'),
-          username: localStorage.getItem('superAdminUsername'),
-        });
+        ;
         navigate('/superadmin/dashboard', { replace: true });
       } else {
         console.error('Superadmin login failed:', result.error);

@@ -81,17 +81,17 @@ const Patients = () => {
   };
 
   const handleConsultMedicalActivity = useCallback((patientId) => {
-    console.log('Navigating to medical activity for patient:', patientId);
+    ;
     navigate(`/home/patients/${patientId}/medical-activity`);
   }, [navigate]);
 
   const handleAddPatient = useCallback(() => {
-    console.log('Opening Add Patient modal');
+    ;
     setModalOpen(true);
   }, []);
 
   const handleCloseModal = useCallback(() => {
-    console.log('Closing Add Patient modal');
+    ;
     setModalOpen(false);
   }, []);
 

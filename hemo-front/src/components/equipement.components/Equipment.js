@@ -6,11 +6,7 @@ const Equipment = () => {
   const { subdomain } = useContext(TenantContext);
 
   useEffect(() => {
-    console.log('Equipment.js loaded:', {
-      subdomain,
-      accessToken: !!localStorage.getItem('tenant-token'),
-      role: localStorage.getItem('role'),
-    });
+    ;
   }, [subdomain]);
 
   return (

@@ -14,18 +14,11 @@ const Home = () => {
   const accessToken = localStorage.getItem('tenant-token');
 
   useEffect(() => {
-    console.log('Home.js loaded:', {
-      subdomain,
-      apiBaseUrl,
-      accessToken: !!accessToken,
-      role: localStorage.getItem('role'),
-      center: localStorage.getItem('center'),
-      pathname: window.location.pathname,
-    });
+    ;
   }, [subdomain, apiBaseUrl, accessToken]);
 
   if (!accessToken) {
-    console.log('No accessToken, redirecting to /login');
+    ;
     return null; // Rely on PrivateRoute to redirect
   }
 
