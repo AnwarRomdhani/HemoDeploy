@@ -144,6 +144,7 @@ const AddParamedicalStaffForm = () => {
                     <option value="SUBMITTER">Submitter</option>
                     <option value="MEDICAL_PARA_STAFF">Medical & Paramedical Staff</option>
                     <option value="VIEWER">Viewer</option>
+                    <option value="TECHNICAL">Technical</option>
                   </select>
                   {errors.role && <div className="error-message">{errors.role}</div>}
                 </div>
