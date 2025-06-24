@@ -45,6 +45,7 @@ const SuperAdminDashboard = () => {
         const errorMessage = err.error || err.message || 'Unknown error';
         setError(`Failed to fetch centers: ${errorMessage}`);
         setCenters([]);
+        
         setTotalPages(1);
       } finally {
         setLoading(false);
